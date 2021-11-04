@@ -1,0 +1,41 @@
+import DashBoard from "containers/admin/DashBoard"
+import Home from "containers/client/Home/Home"
+import JobDetail from "containers/client/JobDetail/JobDetail"
+import JobList from "containers/client/JobList/JobList"
+import JobType from "containers/client/JobType/JobType"
+
+export const clientRoutes = [
+    {
+        path: '/',
+        component: Home,
+        exact: true,
+        isPrivate: false,
+    },
+    {
+        path: '/job-list',
+        component: JobList,
+        exact: true,
+        isPrivate: false,
+    },
+    {
+        path: '/job-type',
+        component: JobType,
+        exact: true,
+        isPrivate: false,
+    },
+    {
+        path: '/job-detail',
+        component: JobDetail,
+        exact: true,
+        isPrivate: false,
+    },
+]
+
+export const adminRoutes = [
+    {
+        path: '/',
+        component: DashBoard,
+        exact: true,
+        isPrivate: true,
+    },
+]

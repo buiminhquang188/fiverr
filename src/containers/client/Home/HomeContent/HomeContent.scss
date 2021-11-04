@@ -1,0 +1,11 @@
+.home {
+  .pros {
+    .pros__video {
+      img {
+        position: relative;
+        &::after {
+        }
+      }
+    }
+  }
+}

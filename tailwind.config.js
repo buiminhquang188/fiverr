@@ -1,7 +1,7 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  purge: [],
+  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   presets: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
@@ -64,6 +64,7 @@ module.exports = {
       80: '20rem',
       96: '24rem',
     },
+
     animation: {
       none: 'none',
       spin: 'spin 1s linear infinite',
@@ -968,4 +969,7 @@ module.exports = {
     zIndex: ['responsive', 'focus-within', 'focus'],
   },
   plugins: [],
+  corePlugins: {
+    container: false,
+  }
 }
