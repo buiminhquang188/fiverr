@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { fiverrBanner, fiverrTrusted } from "./HomeBannerConfig";
 import Slider from "react-slick";
 import Search from "antd/lib/input/Search";
 import { SearchIcon } from "@heroicons/react/outline";
+import { useHistory } from "react-router";
 
 const settings = {
   arrows: false,
@@ -15,8 +16,11 @@ const settings = {
 };
 
 const prefixIcons = <SearchIcon width="20px" />;
-export default function HomeBanner() {
-  const onSearch = (value) => console.log(value);
+export default function HomeBanner(props) {
+  const history = useHistory();
+  const onSearch = (searchValue) => {
+    history.push(`job-search/search=${searchValue}`);
+  };
 
   return (
     <div className="banner">

@@ -1,5 +1,6 @@
 import DashBoard from "containers/admin/DashBoard"
 import Home from "containers/client/Home/Home"
+import JobSearch from "containers/client/Home/JobSearch/JobSearch"
 import JobDetail from "containers/client/JobDetail/JobDetail"
 import JobList from "containers/client/JobList/JobList"
 import JobType from "containers/client/JobType/JobType"
@@ -26,6 +27,12 @@ export const clientRoutes = [
     {
         path: '/job-detail',
         component: JobDetail,
+        exact: true,
+        isPrivate: false,
+    },
+    {
+        path: '/job-search/search=:searchId',
+        component: JobSearch,
         exact: true,
         isPrivate: false,
     },
