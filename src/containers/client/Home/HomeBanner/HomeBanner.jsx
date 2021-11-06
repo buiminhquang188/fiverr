@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import { fiverrBanner, fiverrTrusted } from "./HomeBannerConfig";
 import Slider from "react-slick";
 import Search from "antd/lib/input/Search";
@@ -16,12 +16,12 @@ const settings = {
 };
 
 const prefixIcons = <SearchIcon width="20px" />;
-export default function HomeBanner(props) {
+function HomeBanner(props) {
   const history = useHistory();
   const onSearch = (searchValue) => {
     history.push(`job-search/search=${searchValue}`);
   };
-
+  console.log("render HomeBanner");
   return (
     <div className="banner">
       <div className="banner__wrapper relative">
@@ -78,3 +78,4 @@ export default function HomeBanner(props) {
     </div>
   );
 }
+export default memo(HomeBanner);

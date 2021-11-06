@@ -4,7 +4,7 @@ import JobSearch from "containers/client/Home/JobSearch/JobSearch"
 import JobDetail from "containers/client/JobDetail/JobDetail"
 import JobList from "containers/client/JobList/JobList"
 import JobType from "containers/client/JobType/JobType"
-
+import PageNotFound from 'containers/shared/Auth/PageNotFound/PageNotFound'
 export const clientRoutes = [
     {
         path: '/',
@@ -25,7 +25,7 @@ export const clientRoutes = [
         isPrivate: false,
     },
     {
-        path: '/job-detail',
+        path: '/job-detail/:id',
         component: JobDetail,
         exact: true,
         isPrivate: false,
@@ -33,6 +33,12 @@ export const clientRoutes = [
     {
         path: '/job-search/search=:searchId',
         component: JobSearch,
+        exact: true,
+        isPrivate: false,
+    },
+    {
+        path: '*',
+        component: PageNotFound,
         exact: true,
         isPrivate: false,
     },

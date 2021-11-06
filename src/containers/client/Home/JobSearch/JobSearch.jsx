@@ -4,6 +4,7 @@ import { Select, Switch, Menu, Dropdown } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import Loader from "components/Loader/Loader";
 import { HeartIcon } from "@heroicons/react/solid";
+import { Link } from "react-router-dom";
 
 const menu = (
   <Menu>
@@ -49,6 +50,7 @@ export default function JobSearch(props) {
     clientApi
       .searchItem(props.match.params.searchId)
       .then((result) => {
+        console.log(result);
         let listServices = result.data;
         setServices({
           listServices,
@@ -56,7 +58,7 @@ export default function JobSearch(props) {
         setLoading(false);
       })
       .catch((err) => {
-        alert.log(err);
+        alert(err);
       });
   }, []);
   if (loading) return <Loader />;
@@ -158,35 +160,29 @@ export default function JobSearch(props) {
         <div className="jobsearch__content py-12">
           <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4">
             {listServices.map((services) => {
-              console.log(services);
-              const {
-                id,
-                name,
-                description,
-                price,
-                image,
-                category,
-                subCategory,
-              } = services;
+              const { _id, name, description, price, image } = services;
+              console.log(_id);
               return (
-                <div className="col mb-4" key={id}>
-                  <div className="card">
-                    <img src={image} className="card-img-top" alt="..." />
-                    <div className="card-body">
-                      <h5 className="card-title">{name}</h5>
-                      <p className="card-text">{description}</p>
-                    </div>
-                    <div className="card-footer">
-                      <div className="flex justify-between">
-                        <div className="">
-                          <span>
-                            <HeartIcon className="w-7 h-auto" />
-                          </span>
+                <div className="col mb-4" key={_id}>
+                  <Link to={`/job-detail/${_id}`}>
+                    <div className="card">
+                      <img src={image} className="card-img-top" alt="..." />
+                      <div className="card-body">
+                        <h5 className="card-title">{name}</h5>
+                        <p className="card-text">{description}</p>
+                      </div>
+                      <div className="card-footer">
+                        <div className="flex justify-between">
+                          <div className="">
+                            <span>
+                              <HeartIcon className="w-7 h-auto" />
+                            </span>
+                          </div>
+                          <div className="">{price}</div>
                         </div>
-                        <div className="">{price}</div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 </div>
               );
             })}

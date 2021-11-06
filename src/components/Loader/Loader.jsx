@@ -3,8 +3,10 @@ import fiver__logo from "assets/images/fiver_logo.svg";
 function Loader() {
   console.log("render loader");
   return (
-    <div className="w-full max-h-screen">
-      <img src={fiver__logo} alt="Fiver Loading" />
+    <div className="h-screen w-full mx-auto">
+      <div className="flex items-center h-screen">
+        <img src={fiver__logo} alt="Fiver Loading" className="w-full h-96" />
+      </div>
     </div>
   );
 }

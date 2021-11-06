@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import "./HomeContent.scss";
 import {
@@ -73,8 +73,8 @@ function SamplePrevArrow(props) {
     />
   );
 }
-
-export default function HomeContent() {
+function HomeContent() {
+  console.log("render HomeContent");
   return (
     <div className="home">
       <div className="popular py-16">
@@ -345,3 +345,5 @@ export default function HomeContent() {
     </div>
   );
 }
+
+export default memo(HomeContent);
