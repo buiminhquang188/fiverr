@@ -1,30 +1,47 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, memo } from "react";
 import clientApi from "apis/clientApi";
-import { useState } from "react";
 import Loader from "components/Loader/Loader";
 import { Rate } from "antd";
 import { HeartIcon } from "@heroicons/react/solid";
-export default function JobList() {
-  let [jobList, setJobList] = useState({ loading: true });
+import PageNotFound from "containers/shared/Auth/PageNotFound/PageNotFound";
 
+function JobList(props) {
+  let [jobList, setJobList] = useState({ loading: true });
   useEffect(() => {
-    clientApi
-      .fetchItem()
-      .then((result) => {
-        let arrJobList = [];
-        arrJobList = result.data;
-        setJobList({ arrJobList, loading: false });
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  }, []);
+    const { id } = props.match.params;
+    const { typeJobs } = props.location.state;
+    console.log(typeJobs);
+    if (typeJobs) {
+      clientApi
+        .fetchMainJobs(id)
+        .then((result) => {
+          let arrJobList = [];
+          arrJobList = result.data;
+          setJobList({ arrJobList, loading: false });
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    } else {
+      clientApi
+        .fetchSubJobs(id)
+        .then((result) => {
+          let arrJobList = [];
+          arrJobList = result.data;
+          setJobList({ arrJobList, loading: false });
+          console.log(arrJobList);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
+  }, [props.match.params.id]);
 
   const { arrJobList } = jobList;
   if (jobList.loading) return <Loader />;
-
+  if (arrJobList.length === 0) return <PageNotFound />;
   return (
-    <div className="container-fluid">
+    <div className="container">
       <div className="joblist__top">
         <div className="joblist__forms w-1/2">
           <select className="form-control">
@@ -35,8 +52,8 @@ export default function JobList() {
       <div className="joblist__content py-32">
         <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4">
           {arrJobList.map((list, idx) => {
-            console.log(list);
-            const { name, rating, price } = list;
+            const { name, rating } = list;
+            const numberRating = rating / 2;
             return (
               <div className="col mb-4">
                 <div className="card h-100">
@@ -48,14 +65,14 @@ export default function JobList() {
                       natural lead-in to additional content. This content is a
                       little bit longer.
                       <div className="text-left">
-                        <Rate disabled defaultValue={2} />
+                        <Rate allowHalf disabled defaultValue={numberRating} />
                       </div>
                     </p>
                   </div>
                   <div class="card-footer">
                     <small class="">
                       <span>
-                        <HeartIcon className='w-7 h-auto'/>
+                        <HeartIcon className="w-7 h-auto" />
                       </span>
                     </small>
                   </div>
@@ -68,3 +85,5 @@ export default function JobList() {
     </div>
   );
 }
+
+export default memo(JobList);
