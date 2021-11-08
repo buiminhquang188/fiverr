@@ -65,7 +65,7 @@ export default function JobCategories(props) {
                   <Link
                     to={{
                       pathname: `/job-list/sub-job/${_id}`,
-                      state: { typeJobs: true },
+                      state: { typeJobs: false },
                     }}
                   >
                     <div className="card">

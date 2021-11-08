@@ -3,6 +3,7 @@ import clientApi from "apis/clientApi";
 import Loader from "components/Loader/Loader";
 import { Rate } from "antd";
 import Slider from "react-slick";
+import JobDetailComment from "./JobDetailComment/JobDetailComment";
 
 const settings2 = {
   dots: true,
@@ -18,10 +19,9 @@ export default function JobDetail(props) {
 
   const settings = {
     customPaging: function (i) {
-      console.log(i);
       return (
         <a>
-          <img src={`https://picsum.photos/id/${i}/200/300`} />
+          <img src={`https://picsum.photos/id/${i}/200/300`} alt="test" />
         </a>
       );
     },
@@ -37,7 +37,7 @@ export default function JobDetail(props) {
     let detailJob = [];
     const { id } = props.match.params;
     clientApi
-      .fetchItemById(id)
+      .fetchDetailJob(id)
       .then((result) => {
         detailJob = result.data;
         setDetail(detailJob);
@@ -46,7 +46,7 @@ export default function JobDetail(props) {
       .catch((err) => {
         alert(err);
       });
-  }, []);
+  }, [props.match.params.id]);
 
   if (loading) return <Loader />;
   console.log("render jobdetail");
@@ -105,7 +105,7 @@ export default function JobDetail(props) {
                 </div>
                 <div className="my-auto ml-2">Name author</div>
                 <div className="my-auto ml-2">Level Seller</div>
-                <div className="my-auto ml-2">
+                <div className="ml-2">
                   <Rate disabled defaultValue={4} />
                 </div>
                 <div className="text-gray-400 my-auto ml-2">Order in Queue</div>
@@ -171,6 +171,112 @@ export default function JobDetail(props) {
                     </div>
                   </Slider>
                 </div>
+              </div>
+            </div>
+            <div className="jobdetail__about">
+              <div className="jobdetail__content">
+                <h5>About This Gig</h5>
+                <p>
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Excepturi accusantium tenetur beatae dolore alias adipisci qui
+                  consequatur, corrupti, rerum voluptas porro natus illum et
+                  iure assumenda accusamus perspiciatis earum fuga? Debitis enim
+                  voluptatem tempore cumque dolorem architecto reiciendis totam
+                  harum deserunt modi nemo eum sequi commodi laudantium cum
+                  itaque quod, consequatur doloribus quos. Cupiditate illum odit
+                  possimus temporibus laudantium assumenda? Dolorum numquam
+                  ipsam, recusandae molestiae dolores voluptatum. Earum cum non
+                  quibusdam soluta consequatur eligendi neque repellat alias
+                  est. Fuga possimus quod doloremque soluta, itaque natus est
+                  reiciendis velit quia cumque! Quibusdam dolorem quam eos,
+                  itaque ad, laborum voluptatem at voluptatibus incidunt
+                  accusamus quo. Magnam facilis voluptate deleniti expedita
+                  minus, rerum eligendi eveniet, est id, debitis nulla optio
+                  nobis iste. Illum! Ut beatae similique dolorem voluptates
+                  rerum placeat, animi ipsum ipsam non, in hic consectetur
+                  laboriosam numquam natus quidem iure aspernatur illo fugiat ex
+                  aliquam vero molestias ipsa architecto. Voluptas, minus.
+                  Excepturi, in eos. Atque odio asperiores tempora. Temporibus
+                  dolores magni tempora, sint quasi consectetur mollitia
+                  adipisci nobis pariatur commodi, eligendi quod autem quas. Est
+                  recusandae, a eaque harum fugiat pariatur. Inventore
+                  distinctio culpa magnam, doloribus eaque ipsam ex asperiores
+                  quam laudantium obcaecati, sint mollitia deserunt dolorem
+                  nihil corporis dignissimos odit recusandae velit veniam.
+                  Expedita, maxime repellendus! Suscipit laborum nihil libero?
+                  Similique, itaque. Qui quo quisquam, non vel consequuntur
+                  magnam sequi delectus deleniti natus maiores sunt molestias
+                  laudantium mollitia iusto explicabo fugit molestiae architecto
+                  necessitatibus repellendus suscipit. Fuga optio sequi
+                  voluptatum. Suscipit quae minus consectetur? Repellendus qui
+                  placeat ipsa distinctio tempora vero quis reprehenderit porro
+                  atque laborum amet dolore soluta, aspernatur adipisci
+                  doloribus tenetur laudantium pariatur? Similique sit
+                  blanditiis excepturi ipsa? Impedit, ex dolorem cumque corrupti
+                  quod quo eius laboriosam quisquam maiores modi at illo minima
+                  nesciunt recusandae quasi repellat vero voluptate
+                  reprehenderit eveniet! Quisquam, cum quidem! Eaque vero
+                  dolores culpa?
+                </p>
+                <div className="flex justify-between text-left">
+                  <div className="">
+                    <h6>Languages</h6>
+                    <p>English, French, German</p>
+                  </div>
+                  <div className="px-32">
+                    <h6>Industry</h6>
+                    <p>
+                      Administrative, Engineering, Financial Services, Marketing
+                      Sales
+                    </p>
+                  </div>
+                  <div className="">
+                    <h6>File type</h6>
+                    <p>
+                      Doc (Microsoft Word) PDF (Adobe Acrobat) PSD (Adobe
+                      Photoshop)
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="jobdetail__sellers">
+                <h5>About the sellers</h5>
+                <div className="flex">
+                  <div className="w-14 h-14">
+                    <img
+                      src="https://picsum.photos/id/237/200/300"
+                      alt="sellers"
+                      className="rounded-full w-full h-full"
+                    />
+                  </div>
+                  <div>
+                    <ul className="list-none">
+                      <li>Name Seller</li>
+                      <li>Role</li>
+                      <li>
+                        <Rate disabled defaultValue={3} />
+                      </li>
+                      <li>
+                        <button className="bg-gray-200 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded">
+                          Button
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="jobdetail__faq">
+                <h6>FAQ</h6>
+                <ul className="list-none">
+                  <li>1</li>
+                  <li>2</li>
+                  <li>3</li>
+                  <li>4</li>
+                </ul>
+              </div>
+              <div className="jobdetail__review">
+                <div className="jobdetail__rating"></div>
+                <JobDetailComment />
               </div>
             </div>
           </div>
