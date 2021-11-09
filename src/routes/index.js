@@ -59,7 +59,7 @@ export const clientRoutes = [
 
 export const adminRoutes = [
     {
-        path: '/',
+        path: '/admin/dashboard',
         component: DashBoard,
         exact: true,
         isPrivate: true,

@@ -37,7 +37,7 @@ export default function JobDetail(props) {
     let detailJob = [];
     const { id } = props.match.params;
     clientApi
-      .fetchDetailJob(id)
+      .fetchDetailJobs(id)
       .then((result) => {
         detailJob = result.data;
         setDetail(detailJob);

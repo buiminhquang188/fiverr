@@ -8,11 +8,12 @@ import DashBoard from 'containers/admin/DashBoard';
 function App() {
   const renderLayouts = (routes, Layout) => {
     return routes.map(route => {
-      const { path, component, exact } = route;
+      const { path, component, exact, isPrivate } = route;
       return <Layout
         path={path}
         component={component}
         exact={exact}
+        isPrivate={isPrivate}
       />
     })
   }
