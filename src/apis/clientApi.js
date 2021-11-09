@@ -13,7 +13,7 @@ const clientApi = {
         return callApi(`api/type-jobs/${id}`);
     },
     // api number 23
-    fetchItemById(id) {
+    fetchDetailJobs(id) {
         return callApi(`api/jobs/${id}`);
     },
     // api number 24

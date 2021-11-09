@@ -27,7 +27,14 @@ const menu = (subTypeJobs) => {
     const { name, _id } = subJobs;
     return (
       <Menu.Item>
-        <Link to={`/job-list/sub-job/${_id}`}>{name}</Link>
+        <Link
+          to={{
+            pathname: `/job-list/sub-job/${_id}`,
+            state: { typeJob: false },
+          }}
+        >
+          {name}
+        </Link>
       </Menu.Item>
     );
   });
