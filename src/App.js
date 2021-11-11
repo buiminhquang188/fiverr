@@ -1,9 +1,9 @@
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import PageNotFound from 'containers/shared/Auth/PageNotFound/PageNotFound';
-import { clientRoutes } from 'routes';
+import { adminRoutes, clientRoutes } from 'routes';
 import ClientLayouts from 'layouts/ClientLayouts';
-import DashBoard from 'containers/admin/DashBoard';
+import AdminLayouts from 'layouts/AdminLayouts';
 
 function App() {
   const renderLayouts = (routes, Layout) => {
@@ -22,7 +22,7 @@ function App() {
       <Router>
         <Switch>
           {renderLayouts(clientRoutes, ClientLayouts)}
-          <Route path='/admin' exact component={DashBoard} />
+          {renderLayouts(adminRoutes, AdminLayouts)}
           <Route path='*' exact component={PageNotFound} />
         </Switch>
       </Router>

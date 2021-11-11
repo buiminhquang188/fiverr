@@ -1,12 +1,15 @@
-import DashBoard from "containers/admin/DashBoard"
 import Home from "containers/client/Home/Home"
 import JobSearch from "containers/client/Home/JobSearch/JobSearch"
 import JobCategories from "containers/client/JobCategories/JobCategories"
 import JobDetail from "containers/client/JobDetail/JobDetail"
 import JobList from "containers/client/JobList/JobList"
 import JobType from "containers/client/JobType/JobType"
-import PageNotFound from 'containers/shared/Auth/PageNotFound/PageNotFound'
 import Login from 'containers/shared/Auth/Login/Login'
+import DashBoard from "containers/admin/DashBoard"
+import UserManagement from "containers/admin/UserManagement/UserManagement"
+import JobsManagement from "containers/admin/JobsManagement/JobsManagement"
+import CommentManagement from "containers/admin/CommentManagement/CommentManagement"
+
 export const clientRoutes = [
     {
         path: '/',
@@ -56,12 +59,6 @@ export const clientRoutes = [
         exact: true,
         isPrivate: false,
     },
-    {
-        path: '*',
-        component: PageNotFound,
-        exact: true,
-        isPrivate: false,
-    },
 ]
 
 export const adminRoutes = [
@@ -69,6 +66,24 @@ export const adminRoutes = [
         path: '/admin/dashboard',
         component: DashBoard,
         exact: true,
-        isPrivate: true,
+        isPrivate: false,
+    },
+    {
+        path: '/admin/users-management',
+        component: UserManagement,
+        exact: true,
+        isPrivate: false,
+    },
+    {
+        path: '/admin/jobs-management',
+        component: JobsManagement,
+        exact: true,
+        isPrivate: false,
+    },
+    {
+        path: '/admin/comment-management',
+        component: CommentManagement,
+        exact: true,
+        isPrivate: false,
     },
 ]
