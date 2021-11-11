@@ -13,11 +13,7 @@ const clientApi = {
         return callApi(`api/type-jobs/${id}`);
     },
     // api number 23
-<<<<<<< HEAD
-    fetchDetailJob(id) {
-=======
     fetchDetailJobs(id) {
->>>>>>> 62a803aa7f692741f80f952b3b02bb416c0bfd7d
         return callApi(`api/jobs/${id}`);
     },
     // api number 24
@@ -32,6 +28,10 @@ const clientApi = {
     searchItem(searchValues) {
         return callApi(`api/jobs/by-name?name=${searchValues}`);
     },
+    // api number 30
+    loginApi(user) {
+        return callApi(`api/auth/signin`, 'POST', user);
+    }
 }
 
 export default clientApi;

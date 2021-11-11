@@ -6,10 +6,17 @@ import JobDetail from "containers/client/JobDetail/JobDetail"
 import JobList from "containers/client/JobList/JobList"
 import JobType from "containers/client/JobType/JobType"
 import PageNotFound from 'containers/shared/Auth/PageNotFound/PageNotFound'
+import Login from 'containers/shared/Auth/Login/Login'
 export const clientRoutes = [
     {
         path: '/',
         component: Home,
+        exact: true,
+        isPrivate: false,
+    },
+    {
+        path: '/login',
+        component: Login,
         exact: true,
         isPrivate: false,
     },
