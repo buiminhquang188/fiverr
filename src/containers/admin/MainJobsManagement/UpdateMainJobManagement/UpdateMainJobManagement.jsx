@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function JobsManagement() {
+export default function UpdateMainJobManagement() {
     return (
         <div>
-            JobsManagement
+            
         </div>
     )
 }

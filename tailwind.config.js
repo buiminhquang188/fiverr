@@ -177,7 +177,8 @@ module.exports = {
       150: '1.5',
       200: '2',
     },
-    container: {},
+    container: {
+    },
     content: {
       none: 'none',
     },

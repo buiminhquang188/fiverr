@@ -21,7 +21,7 @@ export const actLogin = (user, history) => {
         clientApi
             .loginApi(user)
             .then((res) => {
-                dispatch(actLoginSuccess(res.data.content));
+                dispatch(actLoginSuccess(res.data));
                 history.push("/");
             }).catch((err) => {
                 dispatch(actLoginFailure(err));

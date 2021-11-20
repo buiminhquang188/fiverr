@@ -1,14 +1,14 @@
 import React, { useState, memo, useEffect } from "react";
 import { LockClosedIcon } from "@heroicons/react/outline";
-import { Button, Modal } from "antd";
 import { withFormik, Field } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { connect, useSelector, useDispatch } from "react-redux";
 import { actLogin } from "../module/action";
+import { USER_FIVER } from "../module/types";
 
 function Login(props) {
-  const dispatch = useDispatch();
+  const history = useHistory();
   const { loading, error } = useSelector((state) => state.authReducer);
   const [modal, setModal] = useState({
     modal2Visible: false,
@@ -19,8 +19,7 @@ function Login(props) {
       modal2Visible: values,
     });
   };
-  const { values, touched, errors, handleChange, handleBlur, handleSubmit } =
-    props;
+  const { touched, errors, handleChange, handleBlur, handleSubmit } = props;
 
   return (
     <div className="max-h-screen w-full max-w-full h-screen">

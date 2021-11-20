@@ -5,8 +5,12 @@ import HomeContent from "./HomeContent/HomeContent";
 import HomeNavigation from "./HomeNavigation/HomeNavigation";
 import clientApi from "apis/clientApi";
 import { set } from "lodash";
+import { USER_FIVER } from "containers/shared/Auth/module/types";
 
 export default function Home() {
+  // const user = JSON.parse(localStorage.getItem(`persist:${USER_FIVER}`));
+  // console.log(JSON.parse(user.authReducer));
+
   let [typeJobs, setTypeJobs] = useState([]);
   let [loading, setLoading] = useState(true);
 
@@ -16,7 +20,7 @@ export default function Home() {
       .then((result) => {
         let listTypeJobs = [];
         listTypeJobs = result.data;
-        setTypeJobs({listTypeJobs});
+        setTypeJobs({ listTypeJobs });
         setLoading(false);
       })
       .catch((err) => {

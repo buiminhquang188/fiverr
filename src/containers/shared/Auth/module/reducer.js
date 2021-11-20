@@ -1,4 +1,5 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from "./types"
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, USER_FIVER } from "./types"
+
 
 const initialState = {
     currentUser: null,

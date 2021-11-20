@@ -7,8 +7,8 @@ import JobType from "containers/client/JobType/JobType"
 import Login from 'containers/shared/Auth/Login/Login'
 import DashBoard from "containers/admin/DashBoard"
 import UserManagement from "containers/admin/UserManagement/UserManagement"
-import JobsManagement from "containers/admin/JobsManagement/JobsManagement"
-import CommentManagement from "containers/admin/CommentManagement/CommentManagement"
+import MainJobsManagement from "containers/admin/MainJobsManagement/MainJobsManagement"
+import SubJobsManagement from "containers/admin/SubJobsManagement/SubJobsManagement"
 
 export const clientRoutes = [
     {
@@ -75,14 +75,14 @@ export const adminRoutes = [
         isPrivate: false,
     },
     {
-        path: '/admin/jobs-management',
-        component: JobsManagement,
+        path: '/admin/jobs-management/main-jobs',
+        component: MainJobsManagement,
         exact: true,
         isPrivate: false,
     },
     {
-        path: '/admin/comment-management',
-        component: CommentManagement,
+        path: '/admin/jobs-management/sub-jobs',
+        component: SubJobsManagement,
         exact: true,
         isPrivate: false,
     },
