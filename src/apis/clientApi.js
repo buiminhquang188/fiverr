@@ -28,7 +28,13 @@ const clientApi = {
     searchItem(searchValues) {
         return callApi(`api/jobs/by-name?name=${searchValues}`);
     },
-    // api number 30
+
+    // api number 31
+    signUpApi(user) {
+        return callApi(`api/auth/signup`, "POST", user)
+    },
+
+    // api number 32
     loginApi(user) {
         return callApi(`api/auth/signin`, 'POST', user);
     }

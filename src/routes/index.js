@@ -9,6 +9,7 @@ import DashBoard from "containers/admin/DashBoard"
 import UserManagement from "containers/admin/UserManagement/UserManagement"
 import MainJobsManagement from "containers/admin/MainJobsManagement/MainJobsManagement"
 import SubJobsManagement from "containers/admin/SubJobsManagement/SubJobsManagement"
+import SignUp from "containers/shared/Auth/SignUp/SignUp"
 
 export const clientRoutes = [
     {
@@ -20,6 +21,12 @@ export const clientRoutes = [
     {
         path: '/login',
         component: Login,
+        exact: true,
+        isPrivate: false,
+    },
+    {
+        path: '/signup',
+        component: SignUp,
         exact: true,
         isPrivate: false,
     },
@@ -66,24 +73,24 @@ export const adminRoutes = [
         path: '/admin/dashboard',
         component: DashBoard,
         exact: true,
-        isPrivate: false,
+        isPrivate: true,
     },
     {
         path: '/admin/users-management',
         component: UserManagement,
         exact: true,
-        isPrivate: false,
+        isPrivate: true,
     },
     {
         path: '/admin/jobs-management/main-jobs',
         component: MainJobsManagement,
         exact: true,
-        isPrivate: false,
+        isPrivate: true,
     },
     {
         path: '/admin/jobs-management/sub-jobs',
         component: SubJobsManagement,
         exact: true,
-        isPrivate: false,
+        isPrivate: true,
     },
 ]

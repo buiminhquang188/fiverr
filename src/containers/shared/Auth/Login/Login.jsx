@@ -10,15 +10,7 @@ import { USER_FIVER } from "../module/types";
 function Login(props) {
   const history = useHistory();
   const { loading, error } = useSelector((state) => state.authReducer);
-  const [modal, setModal] = useState({
-    modal2Visible: false,
-  });
 
-  const setModal2Visible = (values) => {
-    setModal({
-      modal2Visible: values,
-    });
-  };
   const { touched, errors, handleChange, handleBlur, handleSubmit } = props;
 
   return (
@@ -32,15 +24,15 @@ function Login(props) {
               alt="Workflow"
             />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Sign in to your account
+              Log in to your account
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Or{" "}
               <Link
-                to="/"
+                to="/signup"
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
-                start your 14-day free trial
+                click here to sign up
               </Link>
             </p>
           </div>
@@ -66,10 +58,10 @@ function Login(props) {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
-                {errors.email && touched.email && (
-                  <div className="text-red-500">{errors.email}</div>
-                )}
               </div>
+              {errors.email && touched.email && (
+                <div className="text-red-500 flex pl-2">{errors.email}</div>
+              )}
               <div>
                 <label htmlFor="password" className="sr-only">
                   Password
@@ -84,12 +76,11 @@ function Login(props) {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
-                {errors.password && touched.password && (
-                  <div className="text-red-500">{errors.password}</div>
-                )}
               </div>
+              {errors.password && touched.password && (
+                <div className="text-red-500 flex pl-2">{errors.password}</div>
+              )}
             </div>
-
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <input
