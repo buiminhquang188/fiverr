@@ -3,13 +3,29 @@ import Loader from "components/Loader/Loader";
 import { Table, Space, Button, Modal, Tag } from "antd";
 import adminApi from "apis/adminApi";
 import AddMainJobManagement from "./AddMainJobManagement/AddMainJobManagement";
+import UpdateMainJobManagement from "./UpdateMainJobManagement/UpdateMainJobManagement";
 
 export default function MainJobsManagement() {
   const [visibleAddMainJob, setVisibleAddMainJob] = useState(false);
+  const [visibleUpdateMainJob, setVisibleUpdateMainJob] = useState(false);
   const [mainJob, setMainJob] = useState({
     mainJobList: [],
     loading: true,
   });
+
+  const [tagSubJob, setTagSubJob] = useState({
+    tagSubJobList: [],
+    isLoading: true,
+  });
+
+  const [updateJob, setUpdateJob] = useState({
+    updateJob: [],
+    id: null,
+  });
+
+  const handleUpdateCb = () => {
+    setVisibleUpdateMainJob(false);
+  };
 
   useEffect(() => {
     adminApi
@@ -23,7 +39,18 @@ export default function MainJobsManagement() {
       .catch((err) => {
         alert(err);
       });
-  }, [visibleAddMainJob]);
+    adminApi
+      .fetchSubJobsInformation()
+      .then((result) => {
+        setTagSubJob({
+          tagSubJobList: result.data,
+          isLoading: false,
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }, [visibleAddMainJob, visibleUpdateMainJob]);
 
   // fetch main job data
   const fetchMainJobData = () => {
@@ -34,6 +61,22 @@ export default function MainJobsManagement() {
           mainJobList: result.data,
           loading: false,
         });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  // fetch detail main job data
+  const fetchDetailMainJob = (id) => {
+    adminApi
+      .fetchDetailMainJob(id)
+      .then((result) => {
+        setUpdateJob({
+          updateJob: result.data,
+          id: id,
+        });
+        setVisibleUpdateMainJob(true);
       })
       .catch((err) => {
         alert(err);
@@ -61,7 +104,7 @@ export default function MainJobsManagement() {
       dataIndex: "name",
       key: "name",
       render: (mainJob) => <div>{mainJob}</div>,
-      width: "20%",
+      width: 140,
     },
     {
       title: "Sub Job",
@@ -70,9 +113,10 @@ export default function MainJobsManagement() {
       render: (subJobBelong) => <div>{subJobBelong}</div>,
     },
     {
-      title: "Amount Sub Jobs",
+      title: "Amount Sub Job",
       dataIndex: "amountSubJobs",
       key: "amountSubJobs",
+      width: 140,
     },
     {
       title: "Status",
@@ -84,7 +128,10 @@ export default function MainJobsManagement() {
       key: "action",
       render: (values) => (
         <Space size="middle">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded inline-block">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded inline-block"
+            onClick={() => fetchDetailMainJob(values.key)}
+          >
             Update
           </button>
           <button
@@ -102,17 +149,17 @@ export default function MainJobsManagement() {
     return mainJob.mainJobList.map((mainjob, idx) => {
       const { name, subTypeJobs, status, _id } = mainjob;
       const amountSubJobs = subTypeJobs.length;
-      console.log(subTypeJobs);
       return {
         key: _id,
         name,
-        subjob: subTypeJobs.map((subjob) =>
-          subjob.name !== "" ? (
-            <Tag className="ml-2 mb-2">{subjob.name}</Tag>
+        subjob:
+          amountSubJobs !== 0 ? (
+            subTypeJobs.map((subjob) => (
+              <Tag className="ml-2 mb-2">{subjob.name}</Tag>
+            ))
           ) : (
-            "No Job Found"
-          )
-        ),
+            <Tag className="ml-2 mb-2">No Sub Job</Tag>
+          ),
         amountSubJobs: amountSubJobs ? amountSubJobs : "0",
         statusJobs: status ? "Active" : "Disable",
       };
@@ -138,6 +185,21 @@ export default function MainJobsManagement() {
           <AddMainJobManagement />
         </Modal>
         <Table columns={columns} dataSource={mainJobsData()} bordered={true} />
+        <Modal
+          title="Update Main Job"
+          centered
+          visible={visibleUpdateMainJob}
+          onOk={() => setVisibleUpdateMainJob(false)}
+          onCancel={() => setVisibleUpdateMainJob(false)}
+          width={1000}
+        >
+          <UpdateMainJobManagement
+            updateMainJobData={updateJob.updateJob}
+            allSubJobData={tagSubJob.tagSubJobList}
+            jobId={updateJob.id}
+            handleUpdateCb={handleUpdateCb}
+          />
+        </Modal>
       </div>
     )
   );

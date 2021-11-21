@@ -16,6 +16,10 @@ export default function SubJobsManagement() {
     loading: true,
   });
 
+  const handleUpdateCb = () => {
+    console.log("handleUpdateCb");
+    setVisibleUpdateSubJob(false);
+  };
   useEffect(() => {
     adminApi
       .fetchSubJobsInformation()
@@ -159,6 +163,7 @@ export default function SubJobsManagement() {
           <AddSubJobManagement
             checkType={false}
             updateSubJobData={updateJob.updateJob}
+            handleUpdateCb={handleUpdateCb}
           />
         </Modal>
       </div>

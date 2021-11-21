@@ -47,7 +47,7 @@ const adminApi = {
 
     // api number 11
     fetchUpdateSubJob(id, subJob) {
-        return callApi(`/api/sub-type-jobs${id}`, 'PUT', subJob)
+        return callApi(`api/sub-type-jobs/${id}`, 'PUT', subJob)
     },
 
     // api number 12 
@@ -68,6 +68,16 @@ const adminApi = {
     // api number 15
     fetchDeleteMainJob(id) {
         return callApi(`api/type-jobs/${id}`, 'DELETE')
+    },
+
+    // api number 18
+    fetchUpdateMainJob(id, mainJob) {
+        return callApi(`api/type-jobs/${id}`, 'PUT', mainJob)
+    },
+
+    // api number 17
+    fetchDetailMainJob(id) {
+        return callApi(`api/type-jobs/${id}`)
     }
 }
 

@@ -7,8 +7,6 @@ const { Option } = Select;
 
 function AddSubJobManagement(props) {
   const { checkType, updateSubJobData } = props;
-  console.log(checkType);
-  console.log(updateSubJobData);
   const [form] = Form.useForm();
   const [tagMainJob, setTagMainJob] = useState({
     tagMainJobList: [],
@@ -82,7 +80,9 @@ function AddSubJobManagement(props) {
           }}
           onBlur={handleBlur}
           placeholder="Select status"
-          defaultValue={checkType ? "" : (updateSubJobData.status ? "ACTIVE" : "DISABLE")}
+          defaultValue={
+            checkType ? "" : updateSubJobData.status ? "ACTIVE" : "DISABLE"
+          }
         >
           <Select.Option name="status" value="ACTIVE">
             ACTIVE
@@ -106,6 +106,7 @@ function AddSubJobManagement(props) {
           }
           onChange={(e) => setFieldValue("typeJob", e)}
           name="typeJob"
+          defaultValue={checkType ? "" : updateSubJobData.typeJob.name}
         >
           {tagMainJob.tagMainJobList.map((typeJob) => {
             return (
@@ -123,33 +124,36 @@ function AddSubJobManagement(props) {
         <Button type="primary" htmlType="submit" className="mr-2">
           Submit
         </Button>
-        <Button type="danger" htmlType="button" onClick={onClear}>
-          Clear
-        </Button>
+        {checkType ? (
+          <Button type="danger" htmlType="button" onClick={onClear}>
+            Clear
+          </Button>
+        ) : (
+          ""
+        )}
       </Form.Item>
     </Form>
   );
 }
 
 const MyAddSubForm = withFormik({
-  mapPropsToValues: () => ({
-    name: "",
-    status: "",
-    typeJob: "",
+  mapPropsToValues: (props) => ({
+    name: props.checkType ? "" : props.updateSubJobData.name,
+    status: props.checkType ? "" : props.updateSubJobData.status,
+    typeJob: props.checkType ? "" : props.updateSubJobData.typeJob._id,
   }),
 
   validationSchema: Yup.object().shape({
-    // name: Yup.string()
-    //   .required("Name is required")
-    //   .min(3, "Sub Job must have at least 3 characters")
-    //   .max(20, "Sub Job must have at most 20 characters"),
-    // status: Yup.string().required("Status is required"),
-    // typeJob: Yup.string().required("Type Job is required"),
+    name: Yup.string()
+      .required("Name is required")
+      .min(3, "Sub Job must have at least 3 characters")
+      .max(20, "Sub Job must have at most 20 characters"),
+    status: Yup.string().required("Status is required"),
+    typeJob: Yup.string().required("Type Job is required"),
   }),
 
   handleSubmit: (values, { setSubmitting, props, resetForm }) => {
     console.log(values);
-    console.log(props);
     if (props.checkType) {
       adminApi
         .fetchAddSubJob(values)
@@ -162,9 +166,10 @@ const MyAddSubForm = withFormik({
         });
     } else {
       adminApi
-        .fetchUpdateSubJob(values)
+        .fetchUpdateSubJob(props.updateSubJobData._id, values)
         .then((result) => {
           alert("Update Sub Job Successfully");
+          props.handleUpdateCb();
           console.log(result);
         })
         .catch((err) => {

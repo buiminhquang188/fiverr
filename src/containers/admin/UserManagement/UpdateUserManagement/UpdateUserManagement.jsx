@@ -288,7 +288,7 @@ const MyUpdateUserForm = withFormik({
       .then((result) => {
         console.log(result);
         alert("Update User Success");
-        props.updateVisible(false);
+        props.updateVisible();
       })
       .catch((err) => {
         alert(err);
