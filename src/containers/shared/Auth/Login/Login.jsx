@@ -1,19 +1,21 @@
-import React, { useState, memo, useEffect } from "react";
+import React, { memo } from "react";
 import { LockClosedIcon } from "@heroicons/react/outline";
 import { withFormik, Field } from "formik";
 import * as Yup from "yup";
-import { Link, useHistory } from "react-router-dom";
-import { connect, useSelector, useDispatch } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
+import { connect, useSelector } from "react-redux";
 import { actLogin } from "../module/action";
-import { USER_FIVER } from "../module/types";
+import Loader from "components/Loader/Loader";
 
 function Login(props) {
-  const history = useHistory();
-  const { loading, error } = useSelector((state) => state.authReducer);
+  const { loading, error, currentUser } = useSelector(
+    (state) => state.authReducer
+  );
 
   const { touched, errors, handleChange, handleBlur, handleSubmit } = props;
-
-  return (
+  if (loading) return <Loader />;
+  if (error) return alert(error);
+  return !currentUser ? (
     <div className="max-h-screen w-full max-w-full h-screen">
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
@@ -125,6 +127,8 @@ function Login(props) {
         </div>
       </div>
     </div>
+  ) : (
+    <Redirect to="/" />
   );
 }
 
@@ -142,7 +146,6 @@ const LoginFiverrWithFormik = withFormik({
   }),
 
   handleSubmit: (values, { props, setSubmitting }) => {
-    console.log("values", values);
     props.dispatch(actLogin(values, props.history));
   },
 

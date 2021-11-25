@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from "react";
+import React, { memo } from "react";
 import { fiverrBanner, fiverrTrusted } from "./HomeBannerConfig";
 import Slider from "react-slick";
 import Search from "antd/lib/input/Search";
@@ -21,7 +21,6 @@ function HomeBanner(props) {
   const onSearch = (searchValue) => {
     history.push(`job-search/search=${searchValue}`);
   };
-  console.log("render HomeBanner");
   return (
     <div className="banner">
       <div className="banner__wrapper relative">

@@ -1,6 +1,7 @@
 import React, { memo, useEffect, useState } from "react";
 import { Form, Input, Select, Button } from "antd";
 import { withFormik } from "formik";
+import { connect } from "react-redux";
 import * as Yup from "yup";
 import adminApi from "apis/adminApi";
 const { Option } = Select;
@@ -34,7 +35,6 @@ function AddSubJobManagement(props) {
     onClear();
   };
 
-  console.log("Render AddSubJobManagement");
   const {
     touched,
     errors,
@@ -153,28 +153,24 @@ const MyAddSubForm = withFormik({
   }),
 
   handleSubmit: (values, { setSubmitting, props, resetForm }) => {
-    console.log(values);
     if (props.checkType) {
       adminApi
-        .fetchAddSubJob(values)
+        .fetchAddSubJob(values, props.token)
         .then((result) => {
           alert("Add Sub Job Successfully");
-          console.log(result);
         })
         .catch((err) => {
           alert(err);
         });
     } else {
       adminApi
-        .fetchUpdateSubJob(props.updateSubJobData._id, values)
+        .fetchUpdateSubJob(props.updateSubJobData._id, values, props.token)
         .then((result) => {
           alert("Update Sub Job Successfully");
           props.handleUpdateCb();
-          console.log(result);
         })
         .catch((err) => {
           alert("Can't Update Sub Job");
-          console.log(err);
         });
     }
   },
@@ -182,4 +178,8 @@ const MyAddSubForm = withFormik({
   displayName: "AddMainJobForm",
 })(AddSubJobManagement);
 
-export default memo(MyAddSubForm);
+const mapStateToProps = (state) => ({
+  token: state.authReducer.currentUser,
+});
+
+export default connect(mapStateToProps)(memo(MyAddSubForm));

@@ -1,17 +1,15 @@
-import React, { useState, memo, useEffect } from "react";
+import React, { memo } from "react";
 import { LockClosedIcon } from "@heroicons/react/outline";
 import { withFormik, Field } from "formik";
 import * as Yup from "yup";
-import { Link, useHistory } from "react-router-dom";
-import { connect, useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import { DatePicker, Input, Select, Form, Tag } from "antd";
 import moment from "moment";
 import { actSignUp } from "../module/action";
 const { Option } = Select;
 
 function SignUp(props) {
-  const history = useHistory();
-  const { loading, errorSignUp } = useSelector((state) => state.authReducer);
   const {
     values,
     touched,
@@ -358,8 +356,6 @@ const SignUpFiverrWithFormik = withFormik({
   }),
 
   handleSubmit: (values, { props, setSubmitting }) => {
-    console.log("values", values);
-
     props.dispatch(actSignUp(values, props.history));
   },
 

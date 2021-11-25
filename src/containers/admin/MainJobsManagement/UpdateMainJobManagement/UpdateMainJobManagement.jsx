@@ -1,6 +1,7 @@
 import React, { memo, useEffect, useState } from "react";
-import { Form, Input, DatePicker, Select, Tag, Button } from "antd";
+import { Form, Input, Select, Button } from "antd";
 import { withFormik } from "formik";
+import { connect } from "react-redux";
 import * as Yup from "yup";
 import adminApi from "apis/adminApi";
 const { Option } = Select;
@@ -39,7 +40,7 @@ function UpdateMainJobManagement(props) {
   //const handle change select
   const handleChangeSelect = (value) => {
     const result = tagSubJobList.tagAllSubJob.map((items) => {
-      const { id, name, isChoosen } = items;
+      const { id, name } = items;
       if (value.includes(name)) {
         return { id, name, isChoosen: true };
       } else {
@@ -72,7 +73,6 @@ function UpdateMainJobManagement(props) {
   } = props;
   if (tagSubJobList.isLoading) return <antIcon />;
 
-  console.log("Render UpdateMainJobManagement");
   return (
     <Form
       labelCol={{
@@ -186,13 +186,11 @@ const MyUpdateMainJobForm = withFormik({
   }),
 
   handleSubmit: (values, { setSubmitting, props, resetForm }) => {
-    console.log(values);
     adminApi
-      .fetchUpdateMainJob(props.jobId, values)
+      .fetchUpdateMainJob(props.jobId, values, props.token)
       .then((result) => {
         alert("Update main job success");
         props.handleUpdateCb();
-        console.log(result);
       })
       .catch((err) => {
         alert(err);
@@ -202,4 +200,8 @@ const MyUpdateMainJobForm = withFormik({
   displayName: "AddMainJobForm",
 })(UpdateMainJobManagement);
 
-export default memo(MyUpdateMainJobForm);
+const mapStateToProps = (state) => ({
+  token: state.authReducer.currentUser.token,
+});
+
+export default connect(mapStateToProps)(memo(MyUpdateMainJobForm));

@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Loader from "components/Loader/Loader";
-import {
-  Table,
-  Space,
-  Button,
-  Modal,
-  Input,
-  Form,
-  Radio,
-  Select,
-  DatePicker,
-  Tag,
-} from "antd";
+import { Table, Space, Button, Modal, Input } from "antd";
+import { useSelector } from "react-redux";
 import adminApi from "apis/adminApi";
-import moment from "moment";
 import AddUserManagement from "./AddUserManagement/AddUserManagement";
 import UpdateUserManagement from "./UpdateUserManagement/UpdateUserManagement";
 
@@ -24,6 +13,7 @@ export default function UserManagement() {
     userList: null,
     loading: true,
   });
+  const { token } = useSelector((state) => state.authReducer.currentUser);
 
   const [visible, setVisibleUpdateUser] = useState(false);
   const [visibleAddUser, setVisibleAddUser] = useState(false);
@@ -47,7 +37,6 @@ export default function UserManagement() {
 
   //  updateVisible
   const updateVisible = () => {
-    console.log("updateVisible");
     setVisibleUpdateUser(false);
   };
 
@@ -84,7 +73,7 @@ export default function UserManagement() {
   // remove user
   const handleRemoveUser = (id) => {
     adminApi
-      .fetchDeleteUser(id)
+      .fetchDeleteUser(id, token)
       .then((result) => {
         alert("Xóa thành công");
         fetchUserData();
@@ -98,8 +87,6 @@ export default function UserManagement() {
   useEffect(() => {
     fetchUserData();
   }, [visibleAddUser]);
-
-  console.log("Render UserManagement");
 
   const columns = [
     {
@@ -178,7 +165,6 @@ export default function UserManagement() {
   // search user
   const onSearch = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
     adminApi
       .fetchFindUser(e.target.value)
       .then((result) => {

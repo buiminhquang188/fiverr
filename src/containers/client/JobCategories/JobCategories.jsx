@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Loader from "components/Loader/Loader";
 import clientApi from "apis/clientApi";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { imgAllJob } from "./JobCategoriesConfig";
 
 export default function JobCategories(props) {
+  const params = useParams();
   let [subJob, setSubJob] = useState([]);
   let [loaing, setLoading] = useState(true);
 
@@ -19,47 +21,58 @@ export default function JobCategories(props) {
       .catch((err) => {
         alert(err);
       });
-  }, [props.match.params]);
+  }, [params.id]);
 
   if (loaing) return <Loader />;
-  console.log("render JobCategories");
+  const { _id, subTypeJobs } = subJob.listSubJobs;
+  const result = imgAllJob.filter((item) => item.id === _id);
+  const imgSrcLength = result[0].imgJob.length;
+  const newArrSubJob = subTypeJobs.map((subJob, idx) => ({
+    ...subJob,
+    imgSrc: idx < imgSrcLength ? result[0].imgJob[idx].imgSrc : null,
+  }));
+
   return (
-    <div className="container jobcategories py-32">
-      <h1>{subJob.listSubJobs.name}</h1>
-      <div className="row">
-        <div className="col-3">
+    <div className="container jobcategories">
+      <h1 className="pt-8">{subJob.listSubJobs.name}</h1>
+      <div className="row pt-8">
+        <div className="col-3 text-left text-base">
           <Link
             to={{
               pathname: `/job-list/main-job/${subJob.listSubJobs._id}`,
               state: { typeJobs: true },
             }}
-            className="nav-link"
+            className="text-black hover:text-black text-lg font-bold"
           >
             {subJob.listSubJobs.name}
           </Link>
           {subJob.listSubJobs.subTypeJobs.map((jobs) => {
             const { _id, name } = jobs;
             return (
-              <Link
-                className="nav-link"
-                to={{
-                  pathname: `/job-list/sub-job/${_id}`,
-                  state: { typeJobs: false },
-                }}
-                state={{
-                  from: "hello",
-                }}
-                key={_id}
-              >
-                {name}
-              </Link>
+              <ul className="list-none mt-2 text-lg">
+                <li>
+                  <Link
+                    className="text-gray-500 hover:text-gray-900 hover:underline bg-transparent border-0 block"
+                    to={{
+                      pathname: `/job-list/sub-job/${_id}`,
+                      state: { typeJobs: false },
+                    }}
+                    state={{
+                      from: "hello",
+                    }}
+                    key={_id}
+                  >
+                    {name}
+                  </Link>
+                </li>
+              </ul>
             );
           })}
         </div>
         <div className="col-9">
           <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3">
-            {subJob.listSubJobs.subTypeJobs.map((jobs) => {
-              const { name, _id } = jobs;
+            {newArrSubJob.map((jobs) => {
+              const { name, _id, imgSrc } = jobs;
               return (
                 <div className="col mb-4" key={_id}>
                   <Link
@@ -68,15 +81,14 @@ export default function JobCategories(props) {
                       state: { typeJobs: false },
                     }}
                   >
-                    <div className="card">
-                      <img src="..." className="card-img-top" alt="..." />
+                    <div className="card h-100 border-0">
+                      <img
+                        src={imgSrc}
+                        className="card-img-top rounded-sm"
+                        alt={name}
+                      />
                       <div className="card-body">
-                        <h5 className="card-title">{name}</h5>
-                        <p className="card-text">
-                          This is a longer card with supporting text below as a
-                          natural lead-in to additional content. This content is
-                          a little bit longer.
-                        </p>
+                        <h5 className="card-title text-left">{name}</h5>
                       </div>
                     </div>
                   </Link>

@@ -1,7 +1,6 @@
 import React, { memo } from "react";
 import fiver__logo from "assets/images/fiver_logo.svg";
 function Loader() {
-  console.log("render loader");
   return (
     <div className="h-screen w-full mx-auto">
       <div className="flex items-center h-screen">

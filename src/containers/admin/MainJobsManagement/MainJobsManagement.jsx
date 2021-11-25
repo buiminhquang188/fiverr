@@ -4,8 +4,10 @@ import { Table, Space, Button, Modal, Tag } from "antd";
 import adminApi from "apis/adminApi";
 import AddMainJobManagement from "./AddMainJobManagement/AddMainJobManagement";
 import UpdateMainJobManagement from "./UpdateMainJobManagement/UpdateMainJobManagement";
+import { useSelector } from "react-redux";
 
 export default function MainJobsManagement() {
+  const { token } = useSelector((state) => state.authReducer.currentUser);
   const [visibleAddMainJob, setVisibleAddMainJob] = useState(false);
   const [visibleUpdateMainJob, setVisibleUpdateMainJob] = useState(false);
   const [mainJob, setMainJob] = useState({
@@ -86,18 +88,16 @@ export default function MainJobsManagement() {
   // remove main job
   const handleRemoveMainJob = (id) => {
     adminApi
-      .fetchDeleteMainJob(id)
+      .fetchDeleteMainJob(id, token)
       .then((result) => {
-        console.log(result);
         alert("Delete Main Job Successfully!");
         fetchMainJobData();
       })
       .catch((err) => {
-        console.log(err);
+        alert(err);
       });
   };
 
-  console.log("Render MainJobsManagement");
   const columns = [
     {
       title: "Name Main Job",

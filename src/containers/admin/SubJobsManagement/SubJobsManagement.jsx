@@ -3,8 +3,10 @@ import Loader from "components/Loader/Loader";
 import { Table, Space, Modal, Button, Tag } from "antd";
 import adminApi from "apis/adminApi";
 import AddSubJobManagement from "./AddSubJobManagement/AddSubJobManagement";
+import { useSelector } from "react-redux";
 
 export default function SubJobsManagement() {
+  const { token } = useSelector((state) => state.authReducer.currentUser);
   const [visibleAddSubJob, setVisibleAddSubJob] = useState(false);
   const [visibleUpdateSubJob, setVisibleUpdateSubJob] = useState(false);
   const [subJob, setSubJob] = useState({
@@ -17,7 +19,6 @@ export default function SubJobsManagement() {
   });
 
   const handleUpdateCb = () => {
-    console.log("handleUpdateCb");
     setVisibleUpdateSubJob(false);
   };
   useEffect(() => {
@@ -66,18 +67,16 @@ export default function SubJobsManagement() {
   // handle remove sub job
   const handleRemoveSubJob = (id) => {
     adminApi
-      .fetchDeleteSubJob(id)
+      .fetchDeleteSubJob(id, token)
       .then((result) => {
         alert("Delete Sub Job Successfully");
         fetchSubJobsData();
-        console.log(result);
       })
       .catch((err) => {
         alert(err);
       });
   };
 
-  console.log("Render SubJobsManagement");
   const columns = [
     {
       title: "Name Sub Job",

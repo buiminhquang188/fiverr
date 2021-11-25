@@ -1,37 +1,122 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useRef, useEffect, useState } from "react";
 import { PencilIcon } from "@heroicons/react/solid";
-import { LocationMarkerIcon, UserIcon } from "@heroicons/react/outline";
-export default function UserInformation() {
+import {
+  LocationMarkerIcon,
+  UserIcon,
+  CameraIcon,
+} from "@heroicons/react/outline";
+import "./UserInformation.scss";
+import clientApi from "apis/clientApi";
+import { useSelector } from "react-redux";
+import moment from "moment";
+import { Link } from "react-router-dom";
+export default function UserInformation(props) {
+  const currentUser = useSelector((state) => state.authReducer.currentUser);
+
+  const { token, idUser } = currentUser;
+  const { userData, userName } = props;
+  const [imgSrc, setImgSrc] = useState({
+    imgSrc: null,
+  });
+
+  const inputFile = useRef(null);
+  const {
+    birthday,
+    bookingJob,
+    certification,
+    email,
+    gender,
+    name,
+    phone,
+    skill,
+  } = userData;
+
+  useEffect(() => {
+    setImgSrc({
+      imgSrc: userData.avatar,
+    });
+    // window.scrollTo(0, 0);
+  }, []);
+
+  const handleInput = () => {
+    inputFile.current.click();
+  };
+
+  const handleUpload = () => {
+    const file = inputFile.current.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      setImgSrc({
+        imgSrc: e.target.result,
+      });
+    };
+    let formData = new FormData();
+    formData.append("avatar", file, file.name);
+    clientApi
+      .fetchUploadAvatar(formData, token)
+      .then((result) => {
+        alert("Update avatar success");
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mb-28">
       <div className="userinfor__top mt-11 mb-8">
         <div className="max-w-sm rounded overflow-hidden shadow-lg border-black">
-          <img
-            className="mx-auto w-16 h-16 rounded-full"
-            src="https://picsum.photos/200/300"
-            alt="Sunset in the mountains"
-          />
-          <div className="px-6 py-4">
-            <div className="font-bold text-xl mb-2">User Name</div>
+          <div className="avatar-wrapper">
+            <img
+              className="mx-auto w-40 h-40 my-auto rounded-full mt-5 object-cover"
+              src={
+                imgSrc.imgSrc
+                  ? imgSrc.imgSrc
+                  : `https://ui-avatars.com/api/?name=${userName.name}`
+              }
+              alt="Avatar user"
+            />
+            <div className="upload-button" onClick={handleInput}>
+              <CameraIcon className="mx-auto my-auto camera-icon" />
+            </div>
+            <input
+              className="file-upload"
+              type="file"
+              accept="image/*"
+              ref={inputFile}
+              onChange={(e) => handleUpload(e)}
+            />
+          </div>
+          <div className="px-6">
+            <div className="font-bold text-xl mb-2">{name}</div>
             <div className="w-5 h-auto mx-auto cursor-pointer">
               <PencilIcon />
             </div>
-            <button className="my-2 w-full bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded">
-              Button
-            </button>
+            <Link
+              to={`/edit-user/${idUser}`}
+              className="my-2 w-full bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-red-600 py-2 px-4 border border-gray-500 hover:border-transparent rounded"
+            >
+              Link
+            </Link>
           </div>
           <div className="px-6 pt-4 pb-2">
             <ul className="list-none flex justify-between">
               <li>
-                <LocationMarkerIcon />
-                From
+                <div className="flex">
+                  <LocationMarkerIcon className="w-7 h-auto mx-auto" />
+                  <div className="my-auto">From</div>
+                </div>
               </li>
               <li>Vietnam</li>
             </ul>
             <ul className="list-none flex justify-between">
               <li>
-                <UserIcon className="w-10 h-auto" />
-                Member since
+                <div className="flex">
+                  <UserIcon className="w-7 h-auto mx-auto" />
+                  <div className="my-auto">Member since</div>
+                </div>
               </li>
               <li>Aug 2021</li>
             </ul>
@@ -46,7 +131,7 @@ export default function UserInformation() {
             alt="Sunset in the mountains"
           />
           <img
-            className="mx-auto"
+            className="mx-auto py-2"
             src="https://npm-assets.fiverrcdn.com/assets/@fiverr-private/fiverr_learn/enroll-icon.69b770f.svg"
             alt="Sunset in the mountains"
           />
@@ -67,18 +152,41 @@ export default function UserInformation() {
         <div className="max-w-sm rounded overflow-hidden shadow-lg border-black">
           <div className="p-8">
             <div className="flex justify-between">
-              <div className="font-bold text-xl text-left">Description</div>
+              <div className="font-bold text-xl text-left">Skills</div>
               <div className="cursor-pointer font-bold text-xs mt-auto text-blue-400">
-                Edit Description
+                Update All
               </div>
             </div>
-            <div className="flex justify-between">
-              <div className="font-bold text-xl text-left">Languages</div>
-              <div className="cursor-pointer font-bold text-xs mt-auto text-blue-400">
-                Add New
+            <div className="text-left flex justify-start">
+              {skill.map((item, index) => {
+                return (
+                  <div className="p-1 mt-1" key={item}>
+                    {item + ","}
+                  </div>
+                );
+              })}
+            </div>
+            <div className="flex justify-between mt-2">
+              <div className="font-bold text-xl text-left">Certification</div>
+            </div>
+            <div className="text-left flex justify-start ml-2">
+              {certification.map((item, index) => {
+                return (
+                  <div className="pr-1 mt-1" key={item}>
+                    {item + ","}
+                  </div>
+                );
+              })}
+            </div>
+            <div className="flex justify-between mt-2">
+              <div className="font-bold text-xl text-left">Birthday</div>
+            </div>
+            <div className="flex mt-1">
+              <div className="ml-2">
+                {moment(birthday).format("DD/MM/YYYY")}
               </div>
             </div>
-            <div className="">
+            <div className="mt-2">
               <div className="font-bold text-xl text-left">Linked Accounts</div>
               <div className="">
                 <ul className="text-left ml-2 mt-2">
@@ -90,24 +198,6 @@ export default function UserInformation() {
                   <li>Vimeo</li>
                   <li>Twitter</li>
                 </ul>
-              </div>
-            </div>
-            <div className="flex justify-between">
-              <div className="font-bold text-xl text-left">Skills</div>
-              <div className="cursor-pointer font-bold text-xs mt-auto text-blue-400">
-                Add New
-              </div>
-            </div>
-            <div className="flex justify-between">
-              <div className="font-bold text-xl text-left">Education</div>
-              <div className="cursor-pointer font-bold text-xs mt-auto text-blue-400">
-                Add New
-              </div>
-            </div>
-            <div className="flex justify-between">
-              <div className="font-bold text-xl text-left">Certification</div>
-              <div className="cursor-pointer font-bold text-xs mt-auto text-blue-400">
-                Add New
               </div>
             </div>
           </div>

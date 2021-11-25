@@ -1,279 +1,185 @@
 import React, { useState, useEffect } from "react";
 import clientApi from "apis/clientApi";
 import Loader from "components/Loader/Loader";
+import { useSelector } from "react-redux";
 import { Rate } from "antd";
-import Slider from "react-slick";
+import { Link, useHistory, useParams } from "react-router-dom";
+import { ChevronRightIcon } from "@heroicons/react/solid";
 import JobDetailComment from "./JobDetailComment/JobDetailComment";
-
-const settings2 = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-};
+import adminApi from "apis/adminApi";
+import Tag from "components/Tag/Tag";
+import "./JobDetail.scss";
 
 export default function JobDetail(props) {
-  const [detail, setDetail] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const settings = {
-    customPaging: function (i) {
-      return (
-        <a>
-          <img src={`https://picsum.photos/id/${i}/200/300`} alt="test" />
-        </a>
-      );
-    },
-    dots: true,
-    dotsClass: "slick-dots slick-thumb",
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+  const history = useHistory();
+  const params = useParams();
+  const [detail, setDetail] = useState({
+    detailJob: null,
+    isLoading: true,
+  });
+  const [userCreated, setUserCreated] = useState({
+    userCreated: null,
+    isLoading: true,
+  });
+  const { token } = useSelector((state) => state.authReducer.currentUser);
 
   useEffect(() => {
-    let detailJob = [];
-    const { id } = props.match.params;
+    const { id } = params;
+    const { userCreated } = history.location.state;
     clientApi
       .fetchDetailJobs(id)
       .then((result) => {
-        detailJob = result.data;
-        setDetail(detailJob);
-        setLoading(false);
+        setDetail({
+          detailJob: result.data,
+          isLoading: false,
+        });
       })
       .catch((err) => {
         alert(err);
       });
-  }, [props.match.params.id]);
+    adminApi
+      .fetchUserDetail(userCreated)
+      .then((result) => {
+        setUserCreated({
+          userCreated: result.data,
+          isLoading: false,
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }, []);
 
-  if (loading) return <Loader />;
-  console.log("render jobdetail");
-  console.log(detail);
+  const handleBooking = () => {
+    clientApi
+      .fetchBookingJob(props.match.params.id, token)
+      .then((result) => {
+        alert("Booking Job Complete!!");
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+  if (detail.isLoading || userCreated.isLoading) return <Loader />;
+  console.log(userCreated.userCreated);
+  console.log(detail.detailJob);
+  const { onlineSellers, localSellers, deliveryTime, proServices, price } =
+    detail.detailJob;
   return (
     <div className="w-full max-w-full">
       <div className="jobdetail__nav border-b-2 border-black">
         <ul className="flex">
           <li className="mr-6">
-            <a className="text-blue-500 hover:text-blue-800" href="#">
+            <Link to="/" className="text-blue-500 hover:text-blue-800">
               Overview
-            </a>
+            </Link>
           </li>
           <li className="mr-6">
-            <a className="text-blue-500 hover:text-blue-800" href="#">
+            <Link to="/" className="text-blue-500 hover:text-blue-800">
               Descriptions
-            </a>
+            </Link>
           </li>
           <li className="mr-6">
-            <a className="text-blue-500 hover:text-blue-800" href="#">
+            <Link to="/" className="text-blue-500 hover:text-blue-800">
               About The Seller
-            </a>
+            </Link>
           </li>
           <li className="mr-6">
-            <a className="text-blue-500 hover:text-blue-800" href="#">
+            <Link to="/" className="text-blue-500 hover:text-blue-800">
               Compare Packages
-            </a>
+            </Link>
           </li>
           <li className="mr-6">
-            <a className="text-blue-500 hover:text-blue-800" href="#">
+            <Link to="/" className="text-blue-500 hover:text-blue-800">
               Recommendations
-            </a>
+            </Link>
           </li>
           <li className="mr-6">
-            <a className="text-blue-500 hover:text-blue-800" href="#">
+            <Link to="/" className="text-blue-500 hover:text-blue-800">
               Reviews
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
-      <div className="container jobdetail__contain py-4">
-        <div className="grid grid-cols-12 gap-3">
+      <div className="jobdetail__contain mx-auto py-4 container">
+        <div className="grid grid-cols-12 gap-16">
           <div className="jobdetail__left col-span-8">
             <div className="text-left">
-              <div className="text-sm">Type Job {">"} Sub Type</div>
-              <h3>Title</h3>
+              <div className="text-sm mb-2 flex justify-start">
+                <Link to={`/job-categories/${detail.detailJob.type._id}`}>
+                  {detail.detailJob.type.name}
+                </Link>
+                <div>
+                  <ChevronRightIcon className="inline-block w-4 h-4" />
+                </div>
+                <Link
+                  to={{
+                    pathname: `/job-list/sub-job/${detail.detailJob.subType._id}`,
+                    state: { typeJobs: false },
+                  }}
+                >
+                  {detail.detailJob.subType.name}
+                </Link>
+              </div>
+              <h3>{detail.detailJob.name}</h3>
             </div>
             <div className="jobdetail__info">
               <div className="flex">
                 <div className="w-12 h-12">
                   <img
-                    src="https://picsum.photos/200/300"
-                    alt="test"
-                    className="w-full h-full rounded-full"
+                    src={
+                      userCreated.userCreated?.avatar
+                        ? userCreated.userCreated.avatar
+                        : `https://ui-avatars.com/api/?name=${userCreated.userCreated.email}`
+                    }
+                    alt={userCreated.userCreated.email}
+                    className="w-full h-full rounded-full object-cover"
                   />
                 </div>
-                <div className="my-auto ml-2">Name author</div>
-                <div className="my-auto ml-2">Level Seller</div>
-                <div className="ml-2">
-                  <Rate disabled defaultValue={4} />
+                <div className="my-auto ml-2 font-bold">
+                  {userCreated.userCreated.name
+                    ? userCreated.userCreated.name
+                    : userCreated.userCreated.email.substr(
+                        0,
+                        userCreated.userCreated.email.indexOf("@")
+                      )}
                 </div>
-                <div className="text-gray-400 my-auto ml-2">Order in Queue</div>
+                <div className="ml-2 my-auto">
+                  <Rate
+                    disabled
+                    defaultValue={4}
+                    style={{ fontSize: 14 }}
+                    className="py-auto"
+                  />
+                </div>
+                <div className="my-auto ml-auto flex-shrink place-self-end items-center">
+                  <Tag
+                    allTag={{
+                      onlineSellers,
+                      localSellers,
+                      deliveryTime,
+                      proServices,
+                    }}
+                  >
+                    {props.children}
+                  </Tag>
+                </div>
               </div>
             </div>
-            <div className="jobdetail__slick">
-              <div>
-                <Slider {...settings}>
-                  <div>
-                    <img
-                      className="mx-auto"
-                      src={`https://picsum.photos/id/0/200/300`}
-                    />
-                  </div>
-                  <div>
-                    <img
-                      className="mx-auto"
-                      src={`https://picsum.photos/id/1/200/300`}
-                    />
-                  </div>
-                  <div>
-                    <img
-                      className="mx-auto"
-                      src={`https://picsum.photos/id/2/200/300`}
-                    />
-                  </div>
-                  <div>
-                    <img
-                      className="mx-auto"
-                      src={`https://picsum.photos/id/3/200/300`}
-                    />
-                  </div>
-                </Slider>
-              </div>
-            </div>
-            <div className="jobdetail__review py-14">
-              <div className="flex justify-between">
-                <div className="">What people love about this seller</div>
-                <div className="text-blue-400 cursor-pointer">
-                  See all review
-                </div>
-              </div>
-              <div className="jobdetail__reviewslick">
-                <div>
-                  <Slider {...settings2}>
-                    <div>
-                      <h3>Review 1</h3>
-                    </div>
-                    <div>
-                      <h3>Review 2</h3>
-                    </div>
-                    <div>
-                      <h3>Review 3</h3>
-                    </div>
-                    <div>
-                      <h3>Review 4</h3>
-                    </div>
-                    <div>
-                      <h3>Review 5</h3>
-                    </div>
-                    <div>
-                      <h3>Review 6</h3>
-                    </div>
-                  </Slider>
-                </div>
+            <div className="jobdetail__slick my-3">
+              <div className="w-full h-full">
+                <img
+                  src={
+                    detail.detailJob.image
+                      ? detail.detailJob.image
+                      : "https://picsum.photos/450/430"
+                  }
+                  alt="img job"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
             <div className="jobdetail__about">
-              <div className="jobdetail__content">
-                <h5>About This Gig</h5>
-                <p>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Excepturi accusantium tenetur beatae dolore alias adipisci qui
-                  consequatur, corrupti, rerum voluptas porro natus illum et
-                  iure assumenda accusamus perspiciatis earum fuga? Debitis enim
-                  voluptatem tempore cumque dolorem architecto reiciendis totam
-                  harum deserunt modi nemo eum sequi commodi laudantium cum
-                  itaque quod, consequatur doloribus quos. Cupiditate illum odit
-                  possimus temporibus laudantium assumenda? Dolorum numquam
-                  ipsam, recusandae molestiae dolores voluptatum. Earum cum non
-                  quibusdam soluta consequatur eligendi neque repellat alias
-                  est. Fuga possimus quod doloremque soluta, itaque natus est
-                  reiciendis velit quia cumque! Quibusdam dolorem quam eos,
-                  itaque ad, laborum voluptatem at voluptatibus incidunt
-                  accusamus quo. Magnam facilis voluptate deleniti expedita
-                  minus, rerum eligendi eveniet, est id, debitis nulla optio
-                  nobis iste. Illum! Ut beatae similique dolorem voluptates
-                  rerum placeat, animi ipsum ipsam non, in hic consectetur
-                  laboriosam numquam natus quidem iure aspernatur illo fugiat ex
-                  aliquam vero molestias ipsa architecto. Voluptas, minus.
-                  Excepturi, in eos. Atque odio asperiores tempora. Temporibus
-                  dolores magni tempora, sint quasi consectetur mollitia
-                  adipisci nobis pariatur commodi, eligendi quod autem quas. Est
-                  recusandae, a eaque harum fugiat pariatur. Inventore
-                  distinctio culpa magnam, doloribus eaque ipsam ex asperiores
-                  quam laudantium obcaecati, sint mollitia deserunt dolorem
-                  nihil corporis dignissimos odit recusandae velit veniam.
-                  Expedita, maxime repellendus! Suscipit laborum nihil libero?
-                  Similique, itaque. Qui quo quisquam, non vel consequuntur
-                  magnam sequi delectus deleniti natus maiores sunt molestias
-                  laudantium mollitia iusto explicabo fugit molestiae architecto
-                  necessitatibus repellendus suscipit. Fuga optio sequi
-                  voluptatum. Suscipit quae minus consectetur? Repellendus qui
-                  placeat ipsa distinctio tempora vero quis reprehenderit porro
-                  atque laborum amet dolore soluta, aspernatur adipisci
-                  doloribus tenetur laudantium pariatur? Similique sit
-                  blanditiis excepturi ipsa? Impedit, ex dolorem cumque corrupti
-                  quod quo eius laboriosam quisquam maiores modi at illo minima
-                  nesciunt recusandae quasi repellat vero voluptate
-                  reprehenderit eveniet! Quisquam, cum quidem! Eaque vero
-                  dolores culpa?
-                </p>
-                <div className="flex justify-between text-left">
-                  <div className="">
-                    <h6>Languages</h6>
-                    <p>English, French, German</p>
-                  </div>
-                  <div className="px-32">
-                    <h6>Industry</h6>
-                    <p>
-                      Administrative, Engineering, Financial Services, Marketing
-                      Sales
-                    </p>
-                  </div>
-                  <div className="">
-                    <h6>File type</h6>
-                    <p>
-                      Doc (Microsoft Word) PDF (Adobe Acrobat) PSD (Adobe
-                      Photoshop)
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="jobdetail__sellers">
-                <h5>About the sellers</h5>
-                <div className="flex">
-                  <div className="w-14 h-14">
-                    <img
-                      src="https://picsum.photos/id/237/200/300"
-                      alt="sellers"
-                      className="rounded-full w-full h-full"
-                    />
-                  </div>
-                  <div>
-                    <ul className="list-none">
-                      <li>Name Seller</li>
-                      <li>Role</li>
-                      <li>
-                        <Rate disabled defaultValue={3} />
-                      </li>
-                      <li>
-                        <button className="bg-gray-200 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded">
-                          Button
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="jobdetail__faq">
-                <h6>FAQ</h6>
-                <ul className="list-none">
-                  <li>1</li>
-                  <li>2</li>
-                  <li>3</li>
-                  <li>4</li>
-                </ul>
-              </div>
               <div className="jobdetail__review">
                 <div className="jobdetail__rating"></div>
                 <JobDetailComment />
@@ -281,80 +187,22 @@ export default function JobDetail(props) {
             </div>
           </div>
           <div className="jobdetail__right col-span-4">
-            <div className="fixed">
-              <div className="text-left">
-                <ul
-                  className="nav nav-pills mb-3"
-                  id="pills-tab"
-                  role="tablist"
-                >
-                  <li className="nav-item" role="presentation">
-                    <a
-                      className="nav-link active"
-                      id="pills-basic-tab"
-                      data-toggle="pill"
-                      href="#pills-basic"
-                      role="tab"
-                      aria-controls="pills-basic"
-                      aria-selected="true"
-                    >
-                      Basic
-                    </a>
-                  </li>
-                  <li className="nav-item" role="presentation">
-                    <a
-                      className="nav-link"
-                      id="pills-standard-tab"
-                      data-toggle="pill"
-                      href="#pills-standard"
-                      role="tab"
-                      aria-controls="pills-standard"
-                      aria-selected="false"
-                    >
-                      Standard
-                    </a>
-                  </li>
-                  <li className="nav-item" role="presentation">
-                    <a
-                      className="nav-link"
-                      id="pills-premium-tab"
-                      data-toggle="pill"
-                      href="#pills-premium"
-                      role="tab"
-                      aria-controls="pills-premium"
-                      aria-selected="false"
-                    >
-                      Premium
-                    </a>
-                  </li>
-                </ul>
-                <div className="tab-content" id="pills-tabContent">
-                  <div
-                    className="tab-pane fade show active"
-                    id="pills-basic"
-                    role="tabpanel"
-                    aria-labelledby="pills-basic-tab"
-                  >
-                    Basic
-                  </div>
-                  <div
-                    className="tab-pane fade"
-                    id="pills-standard"
-                    role="tabpanel"
-                    aria-labelledby="pills-standard-tab"
-                  >
-                    Standard
-                  </div>
-                  <div
-                    className="tab-pane fade"
-                    id="pills-premium"
-                    role="tabpanel"
-                    aria-labelledby="pills-premium-tab"
-                  >
-                    Premium
-                  </div>
+            <div className="w-full border-l-2 border-r-2 border-b-2 my-4">
+              <div className="flex pb-2 justify-around border-t-2 border-b-2">
+                <div className="bg-white text-lg font-semibold text-green-500 py-2 px-2">
+                  Basic
                 </div>
               </div>
+              <div className="flex justify-between text-lg py-4 px-3">
+                <div className="font-bold">Basic</div>
+                <div>US${price}</div>
+              </div>
+              <button
+                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded w-full"
+                onClick={handleBooking}
+              >
+                Continue (US${price})
+              </button>
             </div>
           </div>
         </div>

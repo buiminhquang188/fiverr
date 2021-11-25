@@ -5,6 +5,8 @@ import { DownOutlined } from "@ant-design/icons";
 import Loader from "components/Loader/Loader";
 import { HeartIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
+import { StarIcon } from "@heroicons/react/outline";
+import Tag from "components/Tag/Tag";
 
 const menu = (
   <Menu>
@@ -19,9 +21,7 @@ const menu = (
   </Menu>
 );
 
-function onChange(checked) {
-  console.log(`switch to ${checked}`);
-}
+function onChange(checked) {}
 
 const { Option } = Select;
 const provinceData = ["Zhejiang", "Jiangsu"];
@@ -50,7 +50,6 @@ export default function JobSearch(props) {
     clientApi
       .searchItem(props.match.params.searchId)
       .then((result) => {
-        console.log(result);
         let listServices = result.data;
         setServices({
           listServices,
@@ -160,29 +159,68 @@ export default function JobSearch(props) {
         <div className="jobsearch__content py-12">
           <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4">
             {listServices.map((services) => {
-              const { _id, name, description, price, image } = services;
-              console.log(_id);
+              const {
+                _id,
+                name,
+                price,
+                image,
+                rating,
+                userCreated,
+                onlineSellers,
+                localSellers,
+                deliveryTime,
+                proServices,
+              } = services;
               return (
                 <div className="col mb-4" key={_id}>
-                  <Link to={`/job-detail/${_id}`}>
-                    <div className="card">
-                      <img src={image} className="card-img-top" alt="..." />
-                      <div className="card-body">
-                        <h5 className="card-title">{name}</h5>
-                        <p className="card-text">{description}</p>
-                      </div>
-                      <div className="card-footer">
+                  <div className="card text-left h-full border-gray-900">
+                    <Link
+                      to={{
+                        pathname: `/job-detail/${_id}`,
+                        state: { userCreated },
+                      }}
+                      className="text-black hover:text-green-600"
+                    >
+                      <img
+                        src={image ? image : "https://picsum.photos/200"}
+                        className="card-img-top w-full h-36"
+                        alt={name}
+                      />
+                      <div className="card-body mb-0">
+                        <p className="card-text text-base">{name}</p>
                         <div className="flex justify-between">
-                          <div className="">
-                            <span>
-                              <HeartIcon className="w-7 h-auto" />
+                          <div className="flex justify-start">
+                            <StarIcon className="text-yellow-200 w-5 h-5" />{" "}
+                            <span className="ml-1 text-yellow-200">
+                              {rating}
                             </span>
                           </div>
-                          <div className="">{price}</div>
+                          <div className="flex justify-end">
+                            <div>
+                              <Tag
+                                allTag={{
+                                  onlineSellers,
+                                  localSellers,
+                                  deliveryTime,
+                                  proServices,
+                                }}
+                              >
+                                {props.children}
+                              </Tag>
+                            </div>
+                          </div>
                         </div>
+                        <small class="flex justify-between mt-3">
+                          <span>
+                            <HeartIcon className="w-4 h-4 hover:text-red-600" />
+                          </span>
+                          <span>
+                            STARTING AT <span>US${price}</span>
+                          </span>
+                        </small>
                       </div>
-                    </div>
-                  </Link>
+                    </Link>
+                  </div>
                 </div>
               );
             })}

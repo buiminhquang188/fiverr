@@ -1,6 +1,13 @@
 import callApi from 'utils/callApi';
 
 const clientApi = {
+
+    // api number 6
+    fetchUploadAvatar(imgData, accessToken) {
+        return callApi(`api/users/upload-avatar`, 'POST', imgData, accessToken);
+    },
+
+    // api number 20
     fetchItem() {
         return callApi(`api/jobs`);
     },
@@ -11,6 +18,20 @@ const clientApi = {
     // api number 17
     fetchSubTypeJobs(id) {
         return callApi(`api/type-jobs/${id}`);
+    },
+    // api number 19 
+    fetchAddJob(data, token) {
+        return callApi(`api/jobs`, 'POST', data, token);
+    },
+
+    //api number 21
+    fetchDeleteJob(id, token) {
+        return callApi(`api/jobs/${id}`, 'DELETE', null, token)
+    },
+
+    // api number 22
+    fetchUpdateJob(id, data, token) {
+        return callApi(`api/jobs/${id}`, 'PUT', data, token);
     },
     // api number 23
     fetchDetailJobs(id) {
@@ -24,9 +45,22 @@ const clientApi = {
     fetchMainJobs(id) {
         return callApi(`api/jobs/by-type?type=${id}&skip=0&llimit=10`);
     },
+    // api number 26
+    fetchBookingJob(id, token) {
+        return callApi(`api/jobs/booking/${id}`, 'PATCH', null, token);
+    },
+    // api number 27
+    fetchCreateJob(token) {
+        return callApi(`api/jobs/by-user`, token);
+    },
+
     // api number 29
     searchItem(searchValues) {
         return callApi(`api/jobs/by-name?name=${searchValues}`);
+    },
+    // api number 30
+    fetchUpdateImageJob(id, data, token) {
+        return callApi(`api/jobs/upload-image/${id}`, 'POST', data, token);
     },
 
     // api number 31

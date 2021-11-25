@@ -3,13 +3,16 @@ import JobSearch from "containers/client/Home/JobSearch/JobSearch"
 import JobCategories from "containers/client/JobCategories/JobCategories"
 import JobDetail from "containers/client/JobDetail/JobDetail"
 import JobList from "containers/client/JobList/JobList"
-import JobType from "containers/client/JobType/JobType"
 import Login from 'containers/shared/Auth/Login/Login'
 import DashBoard from "containers/admin/DashBoard"
 import UserManagement from "containers/admin/UserManagement/UserManagement"
 import MainJobsManagement from "containers/admin/MainJobsManagement/MainJobsManagement"
 import SubJobsManagement from "containers/admin/SubJobsManagement/SubJobsManagement"
 import SignUp from "containers/shared/Auth/SignUp/SignUp"
+import UserProfile from "containers/client/UserProfile/UserProfile"
+import LandingUser from "containers/client/LandingUser/LandingUser"
+import AddJob from "containers/client/LandingUser/AddJob/AddJob"
+import EditUser from "containers/client/UserProfile/UserInformation/EditUser/EditUser"
 
 export const clientRoutes = [
     {
@@ -43,16 +46,16 @@ export const clientRoutes = [
         isPrivate: false,
     },
     {
-        path: '/job-type',
-        component: JobType,
+        path: '/',
+        component: LandingUser,
         exact: true,
-        isPrivate: false,
+        isPrivate: true,
     },
     {
         path: '/job-detail/:id',
         component: JobDetail,
         exact: true,
-        isPrivate: false,
+        isPrivate: true,
     },
     {
         path: '/job-search/search=:searchId',
@@ -66,6 +69,30 @@ export const clientRoutes = [
         exact: true,
         isPrivate: false,
     },
+    {
+        path: '/user/:name',
+        component: UserProfile,
+        exact: true,
+        isPrivate: true,
+    },
+    {
+        path: '/post-a-job/:id',
+        component: AddJob,
+        exact: true,
+        isPrivate: true,
+    },
+    {
+        path: '/edit-a-job/:id',
+        component: AddJob,
+        exact: true,
+        isPrivate: true,
+    },
+    {
+        path: '/edit-user/:id',
+        component: EditUser,
+        exact: true,
+        isPrivate: true,
+    }
 ]
 
 export const adminRoutes = [

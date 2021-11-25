@@ -1,16 +1,13 @@
 import React, { memo, useEffect, useState } from "react";
-import { Form, Input, DatePicker, Select, Tag, Button, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { Form, Input, DatePicker, Select, Tag, Button } from "antd";
 import { withFormik } from "formik";
+import { connect } from "react-redux";
 import * as Yup from "yup";
 import moment from "moment";
 import adminApi from "apis/adminApi";
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-
 function UpdateUserManagement(props) {
   const { userNeedUpdate } = props;
-  console.log("userNeedUpdate", userNeedUpdate);
   const [form] = Form.useForm();
   const [userUpdate, setUserUpdate] = useState({
     arrUser: null,
@@ -33,8 +30,6 @@ function UpdateUserManagement(props) {
     });
   }, [userNeedUpdate]);
 
-  console.log("Render UpdateUserManagement");
-
   const {
     values,
     touched,
@@ -44,7 +39,6 @@ function UpdateUserManagement(props) {
     handleSubmit,
     setFieldValue,
   } = props;
-  console.log(values);
   if (userUpdate.isLoading) return <antIcon />;
   return (
     <Form
@@ -281,12 +275,10 @@ const MyUpdateUserForm = withFormik({
     certification: Yup.array().required("Certification is required"),
   }),
 
-  handleSubmit: (values, { setSubmitting, props, resetForm }) => {
-    console.log(values);
+  handleSubmit: (values, { props }) => {
     adminApi
-      .fetchUpdateUser(props.userNeedUpdate._id, values)
+      .fetchUpdateUser(props.userNeedUpdate._id, values, props.token)
       .then((result) => {
-        console.log(result);
         alert("Update User Success");
         props.updateVisible();
       })
@@ -297,4 +289,8 @@ const MyUpdateUserForm = withFormik({
   displayName: "UpdateUserForm",
 })(UpdateUserManagement);
 
-export default memo(MyUpdateUserForm);
+const mapStateToProps = (state) => ({
+  token: state.authReducer.currentUser.token,
+});
+
+export default connect(mapStateToProps)(memo(MyUpdateUserForm));

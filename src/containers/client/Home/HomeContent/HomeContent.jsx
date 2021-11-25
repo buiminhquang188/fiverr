@@ -9,7 +9,6 @@ import {
   inspired,
 } from "./HomeContentConfig";
 import Slider from "react-slick";
-import ReactPlayer from "react-player";
 import fiverr_business from "assets/images/fiverr_business.svg";
 import fiverr_maker from "assets/images/fiverr_maker.svg";
 
@@ -74,7 +73,6 @@ function SamplePrevArrow(props) {
   );
 }
 function HomeContent() {
-  console.log("render HomeContent");
   return (
     <div className="home">
       <div className="popular py-16">
@@ -82,7 +80,7 @@ function HomeContent() {
         <div className="popular__slick container-fluid">
           <Slider {...settings}>
             {services.map((items) => {
-              const { imgSrc, content, service } = items;
+              const { imgSrc, service } = items;
               return (
                 <div className="popular__contain px-3" key={service}>
                   <img

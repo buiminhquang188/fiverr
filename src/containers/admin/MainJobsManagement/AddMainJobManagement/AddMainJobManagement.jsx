@@ -1,9 +1,8 @@
 import React, { memo } from "react";
-import { Form, Input, DatePicker, Select, Tag, Button } from "antd";
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
+import { Form, Input, Select, Button } from "antd";
+import { connect } from "react-redux";
 import { withFormik } from "formik";
 import * as Yup from "yup";
-import moment from "moment";
 import adminApi from "apis/adminApi";
 
 function AddMainJobManagement(props) {
@@ -18,8 +17,6 @@ function AddMainJobManagement(props) {
     handleSubmit();
     onClear();
   };
-
-  console.log("Render AddMainJobManagement");
 
   const {
     touched,
@@ -105,12 +102,10 @@ const MyAddMainForm = withFormik({
     status: Yup.string().required("Status is required"),
   }),
 
-  handleSubmit: (values, { setSubmitting, props, resetForm }) => {
-    console.log(values);
+  handleSubmit: (values, { props }) => {
     adminApi
-      .fetchAddMainJob(values)
+      .fetchAddMainJob(values, props.token)
       .then((result) => {
-        console.log(result);
         alert("Add main job success");
       })
       .catch((err) => {
@@ -121,4 +116,8 @@ const MyAddMainForm = withFormik({
   displayName: "AddMainJobForm",
 })(AddMainJobManagement);
 
-export default memo(MyAddMainForm);
+const mapStateToProps = (state) => ({
+  token: state.authReducer.currentUser.token,
+});
+
+export default connect(mapStateToProps)(memo(MyAddMainForm));

@@ -7,8 +7,8 @@ const adminApi = {
     },
 
     // api number 2
-    fetchAddUser(user) {
-        return callApi(`api/users`, 'POST', user)
+    fetchAddUser(user, token) {
+        return callApi(`api/users`, 'POST', user, token)
     },
     // api number 3
     fetchUserDetail(id) {
@@ -16,13 +16,13 @@ const adminApi = {
     },
 
     // api number 4
-    fetchUpdateUser(id, user) {
-        return callApi(`api/users/${id}`, 'PUT', user)
+    fetchUpdateUser(id, user, token) {
+        return callApi(`api/users/${id}`, 'PUT', user, token)
     },
 
     // api number 5
-    fetchDeleteUser(id) {
-        return callApi(`api/users/${id}`, 'DELETE')
+    fetchDeleteUser(id, token) {
+        return callApi(`api/users/${id}`, 'DELETE', null, token)
     },
 
     // api number 7
@@ -31,8 +31,8 @@ const adminApi = {
     },
 
     // api number 8
-    fetchAddSubJob(subJob) {
-        return callApi(`api/sub-type-jobs`, 'POST', subJob)
+    fetchAddSubJob(subJob, token) {
+        return callApi(`api/sub-type-jobs`, 'POST', subJob, token)
     },
 
     // api number 9
@@ -46,18 +46,18 @@ const adminApi = {
     },
 
     // api number 11
-    fetchUpdateSubJob(id, subJob) {
-        return callApi(`api/sub-type-jobs/${id}`, 'PUT', subJob)
+    fetchUpdateSubJob(id, subJob, token) {
+        return callApi(`api/sub-type-jobs/${id}`, 'PUT', subJob, token)
     },
 
     // api number 12 
-    fetchDeleteSubJob(id) {
-        return callApi(`api/sub-type-jobs/${id}`, 'DELETE')
+    fetchDeleteSubJob(id, token) {
+        return callApi(`api/sub-type-jobs/${id}`, 'DELETE', token)
     },
 
     // api number 13
-    fetchAddMainJob(mainJob) {
-        return callApi(`api/type-jobs`, 'POST', mainJob)
+    fetchAddMainJob(mainJob, token) {
+        return callApi(`api/type-jobs`, 'POST', mainJob, token)
     },
 
     // api number 14
@@ -66,13 +66,13 @@ const adminApi = {
     },
 
     // api number 15
-    fetchDeleteMainJob(id) {
-        return callApi(`api/type-jobs/${id}`, 'DELETE')
+    fetchDeleteMainJob(id, token) {
+        return callApi(`api/type-jobs/${id}`, 'DELETE', token)
     },
 
     // api number 18
-    fetchUpdateMainJob(id, mainJob) {
-        return callApi(`api/type-jobs/${id}`, 'PUT', mainJob)
+    fetchUpdateMainJob(id, mainJob, token) {
+        return callApi(`api/type-jobs/${id}`, 'PUT', mainJob, token)
     },
 
     // api number 17

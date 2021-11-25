@@ -2,14 +2,13 @@ import React, { memo } from "react";
 import { Form, Input, DatePicker, Select, Tag, Button } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { withFormik } from "formik";
+import { connect } from "react-redux";
 import * as Yup from "yup";
 import moment from "moment";
 import adminApi from "apis/adminApi";
 
 function AddUserManagement(props) {
   const [form] = Form.useForm();
-
-
 
   // clear form
   const onClear = () => {
@@ -20,7 +19,6 @@ function AddUserManagement(props) {
     handleSubmit();
     onClear();
   };
-  console.log("Render AddUserManagement");
 
   const {
     values,
@@ -31,7 +29,6 @@ function AddUserManagement(props) {
     handleSubmit,
     setFieldValue,
   } = props;
-
   return (
     <Form
       labelCol={{
@@ -278,21 +275,22 @@ const MyAddUserForm = withFormik({
     certification: Yup.array().required("Certification is required"),
   }),
 
-  handleSubmit: (values, { setSubmitting, props, resetForm }) => {
-    console.log(values);
+  handleSubmit: (values, { props }) => {
     adminApi
-      .fetchAddUser(values)
+      .fetchAddUser(values, props.token)
       .then((result) => {
-        console.log(result);
         alert("Add User Successfully!");
       })
       .catch((err) => {
         alert("User have exist!");
-        console.log(err);
       });
   },
 
   displayName: "AddUserForm",
 })(AddUserManagement);
 
-export default memo(MyAddUserForm);
+const mapStateToProps = (state) => ({
+  token: state.authReducer.currentUser.token,
+});
+
+export default connect(mapStateToProps)(memo(MyAddUserForm));

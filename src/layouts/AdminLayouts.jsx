@@ -2,13 +2,15 @@ import React from "react";
 import withLayout from "hoc/withLayout";
 import { Layout, Menu } from "antd";
 import { UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import SubMenu from "antd/lib/menu/SubMenu";
+import { useSelector } from "react-redux";
+
 const { Header, Content, Footer, Sider } = Layout;
 
 function AdminLayouts(props) {
-  console.log("Render AdminLayouts");
-  return (
+  const { currentUser } = useSelector((state) => state.authReducer);
+  return currentUser.role === "ADMIN" ? (
     <Layout
       style={{
         height: "100vh",
@@ -59,6 +61,8 @@ function AdminLayouts(props) {
         <Footer style={{ textAlign: "center" }}></Footer>
       </Layout>
     </Layout>
+  ) : (
+    <Redirect to="/" />
   );
 }
 

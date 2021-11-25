@@ -1,0 +1,19 @@
+.userhistory {
+  .userhistory__imgwrapper {
+    img {
+    }
+    .userhistory__update {
+      opacity: 0;
+    }
+    &:hover {
+      img {
+        transition: all 0.3s ease;
+        filter: brightness(0.5);
+      }
+      .userhistory__update {
+        color: white;
+        opacity: 1;
+      }
+    }
+  }
+}

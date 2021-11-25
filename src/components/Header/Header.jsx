@@ -1,25 +1,17 @@
-import { memo } from "react";
+import { Fragment, memo, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import {
-  BellIcon,
-  LockClosedIcon,
-  MenuIcon,
-  XIcon,
-} from "@heroicons/react/outline";
+import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import fiver_logo from "assets/images/fiver_logo.svg";
 import { actLogout } from "containers/shared/Auth/module/action";
 import { connect } from "react-redux";
-import { Fragment } from "react";
 
 const navigation = [
-  { name: "Fiverr Business", href: "#", current: false },
-  { name: "Explore", href: "#", current: false },
-  { name: "English", href: "#", current: false },
-  { name: "USD", href: "#", current: false },
-  { name: "Become a seller", href: "#", current: false },
-  { name: "Sign In", href: "#", current: false },
-  { name: "Join", href: "#", current: false },
+  { name: "Fiverr Business", href: "/", current: false },
+  { name: "Explore", href: "/", current: false },
+  { name: "English", href: "/", current: false },
+  { name: "USD", href: "/", current: false },
+  { name: "Become a seller", href: "/", current: false },
 ];
 
 function classNames(...classes) {
@@ -27,22 +19,24 @@ function classNames(...classes) {
 }
 
 function Header(props) {
-  console.log(props.currentUser);
+  const { currentUser } = props;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
   const handleLogout = () => {
     props.logout();
     props.history.push("/");
   };
-
-  console.log("render header");
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-white border-b-2 border-gray-400">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
             <div className="relative flex items-center justify-between h-16">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white  focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XIcon className="block h-6 w-6" aria-hidden="true" />
@@ -69,24 +63,24 @@ function Header(props) {
                 <div className="hidden sm:block sm:ml-6 w-full my-auto">
                   <div className="flex space-x-4 justify-end">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className={classNames(
                           item.current
                             ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                            : "text-gray-600 hover:bg-transparent hover:text-green-400",
                           "px-3 py-2 rounded-md text-sm font-medium"
                         )}
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
-                    {props.currentUser === null ? (
+                    {currentUser === null ? (
                       <Link
                         to="/login"
-                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                        className="text-gray-600 hover:bg-transparent hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium"
                       >
                         Login
                       </Link>
@@ -94,7 +88,7 @@ function Header(props) {
                       <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                         <button
                           type="button"
-                          className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                          className="bg-green-500 p-1 rounded-full text-white hover:text-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                         >
                           <span className="sr-only">View notifications</span>
                           <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -105,9 +99,16 @@ function Header(props) {
                             <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                               <span className="sr-only">Open user menu</span>
                               <img
-                                className="h-8 w-8 rounded-full"
-                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                alt=""
+                                className="h-8 w-8 rounded-full object-cover"
+                                src={
+                                  currentUser.avatar
+                                    ? currentUser.avatar
+                                    : `https://ui-avatars.com/api/?name=${currentUser.nameUser.substr(
+                                        0,
+                                        currentUser.nameUser.indexOf("@")
+                                      )}`
+                                }
+                                alt={currentUser.name + " avatar"}
                               />
                             </Menu.Button>
                           </div>
@@ -124,26 +125,19 @@ function Header(props) {
                               <Menu.Item>
                                 {({ active }) => (
                                   <Link
-                                    to="/"
+                                    to={{
+                                      pathname: `/user/${currentUser.nameUser.substr(
+                                        0,
+                                        currentUser.nameUser.indexOf("@")
+                                      )}`,
+                                      state: { id: currentUser.idUser },
+                                    }}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                   >
                                     Your Profile
-                                  </Link>
-                                )}
-                              </Menu.Item>
-                              <Menu.Item>
-                                {({ active }) => (
-                                  <Link
-                                    to="/"
-                                    className={classNames(
-                                      active ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700"
-                                    )}
-                                  >
-                                    Settings
                                   </Link>
                                 )}
                               </Menu.Item>
@@ -181,7 +175,7 @@ function Header(props) {
                   className={classNames(
                     item.current
                       ? "bg-gray-900 text-white"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      : "text-gray-300 hover:text-white",
                     "block px-3 py-2 rounded-md text-base font-medium"
                   )}
                   aria-current={item.current ? "page" : undefined}
