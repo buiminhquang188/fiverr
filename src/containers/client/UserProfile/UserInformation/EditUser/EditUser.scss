@@ -1,0 +1,10 @@
+.edituser__submit {
+  background-color: #1dbf73;
+  color: white;
+  border: 1px solid #1dbf73;
+  border-radius: 5px;
+  &:hover {
+    background-color: #19a463;
+    color: white;
+  }
+}

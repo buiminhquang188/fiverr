@@ -1,157 +1,251 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { withFormik } from "formik";
 import * as Yup from "yup";
-function EditUser() {
+import { Form, Input, DatePicker, Select, Tag, Button } from "antd";
+import moment from "moment";
+import { useHistory } from "react-router-dom";
+import Loader from "components/Loader/Loader";
+import adminApi from "apis/adminApi";
+import { connect } from "react-redux";
+import "./EditUser.scss";
+
+function EditUser(props) {
+  const history = useHistory();
+  const { userNeedUpdate } = history.location.state;
+  const [userUpdate, setUserUpdate] = useState({
+    arrUser: null,
+    isLoading: true,
+  });
+
+  useEffect(() => {
+    form.resetFields();
+    setUserUpdate({
+      arrUser: userNeedUpdate,
+      isLoading: false,
+    });
+  }, [userNeedUpdate]);
+  const [form] = Form.useForm();
+
+  const {
+    values,
+    touched,
+    errors,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    setFieldValue,
+  } = props;
+
+  const onClear = () => {
+    form.resetFields();
+  };
+  const onFinish = (values) => {
+    handleSubmit();
+    onClear();
+  };
+  if (userUpdate.isLoading) return <Loader />;
   return (
     <div className="my-10 sm:mt-0 container text-left">
       <div className="md:grid md:grid-cols-2 md:gap-6">
         <div className="mt-5 md:mt-0 md:col-span-2">
-          <form action="#" method="POST">
-            <div className="shadow overflow-hidden sm:rounded-md">
-              <div className="px-4 py-5 bg-white sm:p-6">
-                <div className="grid grid-cols-6 gap-6">
-                  <div className="col-span-6 sm:col-span-3">
-                    <label
-                      htmlFor="first-name"
-                      className="block text-sm font-medium text-gray-700"
+          <h2>Update Profile</h2>
+          <Form
+            labelCol={{
+              span: 4,
+            }}
+            wrapperCol={{
+              span: 14,
+            }}
+            layout="horizontal"
+            form={form}
+            onFinish={onFinish}
+          >
+            <Form.Item label="Name" name="name">
+              <Input
+                onChange={handleChange}
+                onBlur={handleBlur}
+                name="name"
+                placeholder="Enter name"
+                defaultValue={userUpdate.arrUser.name}
+              />
+              {errors.name && touched.name && (
+                <small className="text-red-500">{errors.name}</small>
+              )}
+            </Form.Item>
+            <Form.Item label="Email" name="email">
+              <Input
+                onChange={handleChange}
+                onBlur={handleBlur}
+                name="email"
+                placeholder="Enter email"
+                defaultValue={userUpdate.arrUser.email}
+              />
+              {errors.email && touched.email && (
+                <small className="text-red-500">{errors.email}</small>
+              )}
+            </Form.Item>
+            <Form.Item label="Phone" name="phone">
+              <Input
+                onChange={handleChange}
+                onBlur={handleBlur}
+                name="phone"
+                placeholder="Enter Phone number"
+                defaultValue={userUpdate.arrUser.phone}
+              />
+              {errors.phone && touched.phone && (
+                <small className="text-red-500">{errors.phone}</small>
+              )}
+            </Form.Item>
+            <Form.Item label="DatePicker" name="birthday">
+              <DatePicker
+                name="birthday"
+                onChange={(e) =>
+                  setFieldValue("birthday", moment(e).format("YYYY-MM-DD"))
+                }
+                onBlur={handleBlur}
+                defaultValue={moment(
+                  userUpdate.arrUser.birthday.substring(0, 10)
+                )}
+              />
+              {errors.birthday && touched.birthday && (
+                <small className="text-red-500 block">{errors.birthday}</small>
+              )}
+            </Form.Item>
+            <Form.Item label="Gender" name="gender">
+              <Select
+                name="gender"
+                onChange={(e) => {
+                  if (e === "MALE") {
+                    setFieldValue("gender", true);
+                  } else {
+                    setFieldValue("gender", false);
+                  }
+                }}
+                onBlur={handleBlur}
+                placeholder="Select gender"
+                defaultValue={userUpdate.arrUser.gender ? "MALE" : "FEMALE"}
+              >
+                <Select.Option name="gender" value="MALE">
+                  Male
+                </Select.Option>
+                <Select.Option name="gender" value="FEMALE">
+                  Female
+                </Select.Option>
+              </Select>
+              {errors.gender && touched.gender && (
+                <small className="text-red-500">{errors.gender}</small>
+              )}
+            </Form.Item>
+            <Form.Item label="Role" name="role">
+              <Select
+                name="role"
+                onChange={(e) => setFieldValue("role", e)}
+                onBlur={handleBlur}
+                placeholder="Select role"
+                defaultValue={userUpdate.arrUser.role}
+                disabled
+              >
+                <Select.Option name="role" value="CLIENT">
+                  CLIENT
+                </Select.Option>
+                <Select.Option name="role" value="ADMIN">
+                  ADMIN
+                </Select.Option>
+              </Select>
+              {errors.role && touched.role && (
+                <small className="text-red-500">{errors.role}</small>
+              )}
+            </Form.Item>
+            <Form.Item label="Skills" name="skill">
+              <Input
+                style={{ width: "calc(100% - 200px)" }}
+                name="skill"
+                placeholder='Type Skill & Press "Enter" on keyboard'
+                onPressEnter={(e) => {
+                  setFieldValue("skill", [
+                    ...userUpdate.arrUser.skill,
+                    e.target.value,
+                  ]);
+                  form.resetFields(["skill"]);
+                }}
+              />
+              <br />
+              {userUpdate.arrUser.skill.length === 0 ? (
+                <Tag>No Skill</Tag>
+              ) : (
+                userUpdate.arrUser.skill.map((skill) => {
+                  return (
+                    <Tag
+                      color="blue"
+                      className="block"
+                      key={skill}
+                      closable
+                      onClose={() => {
+                        setFieldValue(
+                          "skill",
+                          values.skill.filter((item) => item !== skill)
+                        );
+                      }}
                     >
-                      First name
-                    </label>
-                    <input
-                      type="text"
-                      name="first-name"
-                      id="first-name"
-                      autoComplete="given-name"
-                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    />
-                  </div>
-
-                  <div className="col-span-6 sm:col-span-3">
-                    <label
-                      htmlFor="last-name"
-                      className="block text-sm font-medium text-gray-700"
+                      {skill}
+                    </Tag>
+                  );
+                })
+              )}
+              {errors.skill && touched.skill && (
+                <small className="text-red-500 block">{errors.skill}</small>
+              )}
+            </Form.Item>
+            <Form.Item label="Certification" name="certification">
+              <Input
+                style={{ width: "calc(100% - 200px)" }}
+                name="certification"
+                onPressEnter={(e) => {
+                  setFieldValue("certification", [
+                    ...userUpdate.arrUser.certification,
+                    e.target.value,
+                  ]);
+                  form.resetFields(["certification"]);
+                }}
+                placeholder='Type Certification & Press "Enter" on keyboard'
+              />
+              <br />
+              {userUpdate.arrUser.certification.length === 0 ? (
+                <Tag>No Certification</Tag>
+              ) : (
+                userUpdate.arrUser.certification.map((certifi) => {
+                  return (
+                    <Tag
+                      color="red"
+                      className="block"
+                      key={certifi}
+                      closable
+                      onClose={() => {
+                        setFieldValue(
+                          "certification",
+                          userUpdate.arrUser.certification.filter(
+                            (item) => item !== certifi
+                          )
+                        );
+                      }}
                     >
-                      Last name
-                    </label>
-                    <input
-                      type="text"
-                      name="last-name"
-                      id="last-name"
-                      autoComplete="family-name"
-                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    />
-                  </div>
-
-                  <div className="col-span-6 sm:col-span-4">
-                    <label
-                      htmlFor="email-address"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Email address
-                    </label>
-                    <input
-                      type="text"
-                      name="email-address"
-                      id="email-address"
-                      autoComplete="email"
-                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    />
-                  </div>
-
-                  <div className="col-span-6 sm:col-span-3">
-                    <label
-                      htmlFor="country"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Country
-                    </label>
-                    <select
-                      id="country"
-                      name="country"
-                      autoComplete="country-name"
-                      className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    >
-                      <option>United States</option>
-                      <option>Canada</option>
-                      <option>Mexico</option>
-                    </select>
-                  </div>
-
-                  <div className="col-span-6">
-                    <label
-                      htmlFor="street-address"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Street address
-                    </label>
-                    <input
-                      type="text"
-                      name="street-address"
-                      id="street-address"
-                      autoComplete="street-address"
-                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    />
-                  </div>
-
-                  <div className="col-span-6 sm:col-span-6 lg:col-span-2">
-                    <label
-                      htmlFor="city"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      City
-                    </label>
-                    <input
-                      type="text"
-                      name="city"
-                      id="city"
-                      autoComplete="address-level2"
-                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    />
-                  </div>
-
-                  <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-                    <label
-                      htmlFor="region"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      State / Province
-                    </label>
-                    <input
-                      type="text"
-                      name="region"
-                      id="region"
-                      autoComplete="address-level1"
-                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    />
-                  </div>
-
-                  <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-                    <label
-                      htmlFor="postal-code"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      ZIP / Postal code
-                    </label>
-                    <input
-                      type="text"
-                      name="postal-code"
-                      id="postal-code"
-                      autoComplete="postal-code"
-                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                <button
-                  type="submit"
-                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Update
-                </button>
-              </div>
-            </div>
-          </form>
+                      {certifi}
+                    </Tag>
+                  );
+                })
+              )}
+              {errors.certification && touched.certification && (
+                <small className="text-red-500 block">
+                  {errors.certification}
+                </small>
+              )}
+            </Form.Item>
+            <Form.Item label="Action">
+              <Button htmlType="submit" className="mr-2 edituser__submit">
+                Update
+              </Button>
+            </Form.Item>
+          </Form>
         </div>
       </div>
     </div>
@@ -159,15 +253,17 @@ function EditUser() {
 }
 
 const EditUserWithFormik = withFormik({
-  mapPropsToValues: () => ({
-    name: "",
-    email: "",
-    phone: "",
-    birthday: "",
-    gender: "",
-    role: "",
-    skill: "",
-    certification: "",
+  mapPropsToValues: (props) => ({
+    name: props.history.location.state.userNeedUpdate.name,
+    email: props.history.location.state.userNeedUpdate.email,
+    phone: props.history.location.state.userNeedUpdate.phone,
+    birthday: moment(
+      props.history.location.state.userNeedUpdate.birthday
+    ).format("YYYY-MM-DD"),
+    gender: props.history.location.state.userNeedUpdate.gender,
+    role: props.history.location.state.userNeedUpdate.role,
+    skill: props.history.location.state.userNeedUpdate.skill,
+    certification: props.history.location.state.userNeedUpdate.certification,
   }),
 
   validationSchema: Yup.object().shape({
@@ -197,9 +293,25 @@ const EditUserWithFormik = withFormik({
     certification: Yup.array().required("Certification is required"),
   }),
 
-  handleSubmit: (values, { props, setSubmitting }) => {},
+  handleSubmit: (values, { props, setSubmitting }) => {
+    console.log(values);
+    adminApi
+      .fetchUpdateUser(props.match.params.id, values, props.token)
+      .then((result) => {
+        alert("Update Success");
+        console.log(result);
+        props.history.goBack();
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  },
 
   displayName: "Login Fiverr",
 })(EditUser);
 
-export default EditUserWithFormik;
+const mapStateToProps = (state) => ({
+  token: state.authReducer.currentUser.token,
+});
+
+export default connect(mapStateToProps)(EditUserWithFormik);
