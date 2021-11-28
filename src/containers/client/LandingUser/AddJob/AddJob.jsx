@@ -84,9 +84,13 @@ function AddJob(props) {
 
   const handleChooseSubJob = (e) => {
     if (typeCreate) {
+      const listSubJob = subJob.subJob.filter((jobID) => jobID._id === e);
       setFieldValue("subType", e);
+      setChooseSubJob({
+        id: listSubJob[0]._id,
+        name: listSubJob[0].name,
+      });
     } else {
-      console.log("valuesProps", editJob.subType._id);
       const listSubJob = subJob.subJob.filter((jobID) => jobID._id === e);
       setFieldValue("subType", e);
       setChooseSubJob({
@@ -341,6 +345,7 @@ const PostAJobWithFormik = withFormik({
   }),
 
   handleSubmit: (values, { props }) => {
+    console.log(values)
     if (props.history.location.state.typeCreate) {
       clientApi
         .fetchAddJob(values, props.token)
@@ -369,7 +374,7 @@ const PostAJobWithFormik = withFormik({
 })(AddJob);
 
 const mapStateToProps = (state) => ({
-  token: state.authReducer.currentUser.token,
+  token: state.authReducer.currentUser?.token,
 });
 
 export default connect(mapStateToProps)(PostAJobWithFormik);

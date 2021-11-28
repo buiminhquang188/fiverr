@@ -71,6 +71,17 @@ const clientApi = {
     // api number 32
     loginApi(user) {
         return callApi(`api/auth/signin`, 'POST', user);
+    },
+
+    // api number 33
+    fetchAddComment(commentData, token) {
+        console.log(commentData)
+        return callApi(`api/comments`, 'POST', commentData, token)
+    },
+
+    // ap number 34
+    fetchComment(id) {
+        return callApi(`api/comments/by-job/${id}`)
     }
 }
 

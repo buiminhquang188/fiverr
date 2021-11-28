@@ -150,7 +150,7 @@ export default function SubJobsManagement() {
         >
           <AddSubJobManagement checkType={true} />
         </Modal>
-        <Table columns={columns} dataSource={subJobsData()} />
+        <Table columns={columns} dataSource={subJobsData()} className='overflow-x-auto' />
         <Modal
           title="Update Sub Job"
           centered

@@ -184,7 +184,7 @@ export default function MainJobsManagement() {
         >
           <AddMainJobManagement />
         </Modal>
-        <Table columns={columns} dataSource={mainJobsData()} bordered={true} />
+        <Table columns={columns} dataSource={mainJobsData()} bordered={true} className='overflow-x-auto' />
         <Modal
           title="Update Main Job"
           centered

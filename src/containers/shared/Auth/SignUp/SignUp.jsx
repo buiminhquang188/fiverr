@@ -26,19 +26,14 @@ function SignUp(props) {
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
-            <img
-              className="mx-auto h-12 w-auto"
-              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-              alt="Workflow"
-            />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               Sign Up to your account
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Or{" "}
               <Link
-                to="/signup"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
+                to="/login"
+                className="font-medium text-green-600 hover:text-green-500"
               >
                 click here to login
               </Link>
@@ -55,40 +50,20 @@ function SignUp(props) {
               <div className="flex justify-start">
                 <div className="w-full">
                   <div className="mb-2">
-                    <label htmlFor="first_name" className="sr-only">
-                      Enter your first name
+                    <label htmlFor="name" className="sr-only">
+                      Enter your name
                     </label>
                     <Field
-                      id="first_name"
-                      name="first_name"
-                      className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                      placeholder="Enter your fist name"
+                      id="name"
+                      name="name"
+                      className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
+                      placeholder="Enter your name"
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    {errors.first_name && touched.first_name && (
+                    {errors.name && touched.name && (
                       <div className="text-red-500 flex pl-2">
-                        {errors.first_name}
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="ml-2 w-full">
-                  <div className="mb-2">
-                    <label htmlFor="last_name" className="sr-only">
-                      Enter your last name
-                    </label>
-                    <Field
-                      id="last_name"
-                      name="last_name"
-                      className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                      placeholder="Enter your last name"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    {errors.last_name && touched.last_name && (
-                      <div className="text-red-500 flex pl-2">
-                        {errors.last_name}
+                        {errors.name}
                       </div>
                     )}
                   </div>
@@ -103,7 +78,7 @@ function SignUp(props) {
                   name="email"
                   type="email"
                   autoComplete="email"
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -121,7 +96,7 @@ function SignUp(props) {
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -137,7 +112,7 @@ function SignUp(props) {
                 <Field
                   id="phone"
                   name="phone"
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                   placeholder="Enter your phone number"
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -152,7 +127,7 @@ function SignUp(props) {
                     <Form.Item name="skill">
                       <Input
                         name="skill"
-                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                         placeholder="Press 'Enter' to enter your skill"
                         //   onChange={handleChange}
                         //   onBlur={handleBlur}
@@ -192,7 +167,7 @@ function SignUp(props) {
                     <Form.Item name="certification">
                       <Input
                         name="certification"
-                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                         placeholder="Press 'Enter' to enter your certification"
                         // onChange={handleChange}
                         // onBlur={handleBlur}
@@ -239,7 +214,7 @@ function SignUp(props) {
                     </label>
                     <DatePicker
                       name="birthday"
-                      className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                      className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                       placeholder="Enter your birthday"
                       onChange={(e) => {
                         setFieldValue(
@@ -286,11 +261,11 @@ function SignUp(props) {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                   <LockClosedIcon
-                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                    className="h-5 w-5 text-green-500 group-hover:text-green-400"
                     aria-hidden="true"
                   />
                 </span>
@@ -306,8 +281,7 @@ function SignUp(props) {
 
 const SignUpFiverrWithFormik = withFormik({
   mapPropsToValues: () => ({
-    first_name: "",
-    last_name: "",
+    name: "",
     email: "",
     password: "",
     phone: "",
@@ -319,19 +293,13 @@ const SignUpFiverrWithFormik = withFormik({
   }),
 
   validationSchema: Yup.object().shape({
-    first_name: Yup.string()
+    name: Yup.string()
       .required("First name is required")
       .matches(
         /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u,
         "This is not a name"
       )
       .trim("No space at the begining"),
-    last_name: Yup.string()
-      .required("Last name is required")
-      .matches(
-        /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u,
-        "This is not a name"
-      ),
     email: Yup.string()
       .required("Email is required!")
       .email("Email is invailid!"),

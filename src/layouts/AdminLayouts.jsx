@@ -13,25 +13,15 @@ function AdminLayouts(props) {
   return currentUser.role === "ADMIN" ? (
     <Layout
       style={{
-        height: "100vh",
+        minHeight: "100vh",
       }}
     >
-      <Sider
-        style={{
-          overflow: "auto",
-          height: "100vh",
-          position: "fixed",
-          left: 0,
-        }}
-      >
+      <Sider collapsible>
         <div className="logo w-16 mx-auto">
           <img src="/logo512.png" className="img-fluid" alt="logo" />
         </div>
         <Menu theme="dark" mode="inline">
           <Menu.Item key="0" icon={<UserOutlined />}>
-            <Link to="/admin/dashboard">Dashboard</Link>
-          </Menu.Item>
-          <Menu.Item key="1" icon={<UserOutlined />}>
             <Link to="/admin/users-management">User Management</Link>
           </Menu.Item>
           <SubMenu
@@ -39,18 +29,18 @@ function AdminLayouts(props) {
             icon={<VideoCameraOutlined />}
             title="Jobs Management"
           >
-            <Menu.Item key="3">
+            <Menu.Item key="1">
               <Link to="/admin/jobs-management/main-jobs">Main Jobs</Link>
             </Menu.Item>
-            <Menu.Item key="4">
+            <Menu.Item key="2">
               <Link to="/admin/jobs-management/sub-jobs">Sub Jobs</Link>
             </Menu.Item>
           </SubMenu>
         </Menu>
       </Sider>
-      <Layout className="site-layout" style={{ marginLeft: 200 }}>
+      <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }} />
-        <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
+        <Content style={{ margin: "0 16px" }}>
           <div
             className="site-layout-background"
             style={{ padding: 24, textAlign: "center" }}

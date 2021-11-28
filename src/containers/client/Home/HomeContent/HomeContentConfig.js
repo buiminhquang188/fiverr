@@ -121,7 +121,7 @@ export const feedback = [
     {
         imgSrc: 'https://fiverr-res.cloudinary.com/q_auto,f_auto,w_560,dpr_1.0/v1/attachments/generic_asset/asset/42a6fd208670a0361b38bd72b47b9317-1599519173399/testimonial-video-still-rooted.jpg',
         brand: 'https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/rooted-logo-x2.321d79d.png',
-        quotes: '"It&apos;s extremely exciting that Fiverr has freelancers from all over the world — it broadens the talent pool. One of the best things about Fiverr is that while we&apos;re sleeping, someone&apos;s working."',
+        quotes: '"It &apos;s extremely exciting that Fiverr has freelancers from all over the world — it broadens the talent pool. One of the best things about Fiverr is that while we&apos;re sleeping, someone&apos;s working."',
         position: 'Kay Kim, Co-Founder',
     },
     {
@@ -133,7 +133,7 @@ export const feedback = [
     {
         imgSrc: 'https://fiverr-res.cloudinary.com/q_auto,f_auto,w_560,dpr_1.0/v1/attachments/generic_asset/asset/42a6fd208670a0361b38bd72b47b9317-1599519173414/testimonial-video-still-naadam.jpg',
         brand: 'https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/naadam-logo-x2.0a3b198.png',
-        quotes: '"We&apos;ve used Fiverr for Shopify web development, graphic design, and backend web development. Working with Fiverr makes my job a little easier every day."',
+        quotes: '"We &apos; ve used Fiverr for Shopify web development, graphic design, and backend web development. Working with Fiverr makes my job a little easier every day."',
         position: 'Caitlin Tormey, Chief Commercial Officer',
     },
 ]

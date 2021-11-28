@@ -13,7 +13,7 @@ export default function Footer() {
     <footer>
       <div className="border-t-2 border-opacity-40 border-gray-300">
         <div className="container-fluid max-w-7xl mx-auto">
-          <div className="grid grid-cols-5">
+          <div className="grid lg:grid-cols-5 md:grid-cols-5 mm:grid-cols-2 mm:py-4">
             <div>
               <ul className="list-none text-justify leading-loose">
                 <li className="font-bold">Categories</li>
@@ -95,7 +95,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer__bottom border-t-2 my-16">
-        <div className="flex justify-between py-8">
+        <div className="flex justify-between mm:justify-around py-8 mm:flex-wrap lg:flex-nowrap">
           <div className="flex footer__left">
             <div className="footer__logo">
               <img src={fiverr_footer} alt="Fiverr Footer" />

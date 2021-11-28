@@ -56,9 +56,9 @@ export default function UserInformation(props) {
   };
 
   return (
-    <div className="flex flex-col mb-28">
+    <div className="lg:max-w-sm lg:w-full mm:w-52 flex flex-col mb-28">
       <div className="userinfor__top mt-11 mb-8">
-        <div className="max-w-sm rounded overflow-hidden shadow-lg border-black">
+        <div className="rounded overflow-hidden shadow-lg border-black">
           <div className="avatar-wrapper">
             <img
               className="mx-auto w-40 h-40 my-auto rounded-full mt-5 object-cover"

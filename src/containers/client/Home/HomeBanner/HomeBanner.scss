@@ -1,0 +1,18 @@
+.banner {
+  .banner__wrapper {
+    .banner__content {
+      .banner__search {
+        button {
+          background-color: #1dbf73;
+          border: 1px solid #1dbf73;
+          &:hover {
+            background-color: #19a463;
+            border: 1px solid #19a463;
+          }
+        }
+      }
+    }
+  }
+  .banner__trust {
+  }
+}

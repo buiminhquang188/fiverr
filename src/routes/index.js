@@ -55,7 +55,7 @@ export const clientRoutes = [
         path: '/job-detail/:id',
         component: JobDetail,
         exact: true,
-        isPrivate: true,
+        isPrivate: false,
     },
     {
         path: '/job-search/search=:searchId',

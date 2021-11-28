@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import adminApi from "apis/adminApi";
 import AddUserManagement from "./AddUserManagement/AddUserManagement";
 import UpdateUserManagement from "./UpdateUserManagement/UpdateUserManagement";
-
 const { Search } = Input;
 
 export default function UserManagement() {
@@ -180,7 +179,7 @@ export default function UserManagement() {
   if (user.loading) return <Loader />;
   return (
     user.userList && (
-      <div>
+      <div className='w-full h-full'>
         <div className="flex pb-3">
           <Button type="primary" onClick={() => setVisibleAddUser(true)}>
             Add User
@@ -205,7 +204,11 @@ export default function UserManagement() {
           enterButton
           className="w-full pb-2"
         />
-        <Table columns={columns} dataSource={userData(user.userList)} />
+        <Table
+          columns={columns}
+          dataSource={userData(user.userList)}
+          className="overflow-x-auto"
+        />
         {update.isUpdate && (
           <Modal
             centered

@@ -1,10 +1,14 @@
-import { Fragment, memo, useEffect } from "react";
+import { Fragment, memo, useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import fiver_logo from "assets/images/fiver_logo.svg";
 import { actLogout } from "containers/shared/Auth/module/action";
 import { connect } from "react-redux";
+import adminApi from "apis/adminApi";
+import { Spin } from "antd";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const navigation = [
   { name: "Fiverr Business", href: "/", current: false },
@@ -19,17 +23,40 @@ function classNames(...classes) {
 }
 
 function Header(props) {
-  const { currentUser } = props;
-  useEffect(() => {
-    window.scrollTo(0, 0);
+  const [userData, setUserData] = useState({
+    userData: null,
+    isLoading: true,
   });
-
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const { currentUser } = props;
+    console.log("currentUser", currentUser);
+    window.scrollTo(0, 0);
+    if (currentUser) {
+      adminApi
+        .fetchUserDetail(currentUser.idUser)
+        .then((result) => {
+          setUserData({
+            userData: result.data,
+            isLoading: false,
+          });
+          setLoading(false);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, [props.currentUser]);
   const handleLogout = () => {
     props.logout();
     props.history.push("/");
   };
+  if (loading) return <Skeleton />;
+  const { currentUser } = props;
   return (
-    <Disclosure as="nav" className="bg-white border-b-2 border-gray-400">
+    <Disclosure as="nav" className="bg-white border-b-2 border-gray-200">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -70,7 +97,7 @@ function Header(props) {
                           item.current
                             ? "bg-gray-900 text-white"
                             : "text-gray-600 hover:bg-transparent hover:text-green-400",
-                          "px-3 py-2 rounded-md text-sm font-medium"
+                          "px-3 py-2 rounded-md font-medium sm:text-sm lg:text-base"
                         )}
                         aria-current={item.current ? "page" : undefined}
                       >
@@ -98,18 +125,22 @@ function Header(props) {
                           <div>
                             <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                               <span className="sr-only">Open user menu</span>
-                              <img
-                                className="h-8 w-8 rounded-full object-cover"
-                                src={
-                                  currentUser.avatar
-                                    ? currentUser.avatar
-                                    : `https://ui-avatars.com/api/?name=${currentUser.nameUser.substr(
-                                        0,
-                                        currentUser.nameUser.indexOf("@")
-                                      )}`
-                                }
-                                alt={currentUser.name + " avatar"}
-                              />
+                              {currentUser && !userData.isLoading ? (
+                                <img
+                                  className="h-8 w-8 rounded-full object-cover"
+                                  src={
+                                    currentUser && userData.userData?.avatar
+                                      ? userData.userData.avatar
+                                      : `https://ui-avatars.com/api/?name=${currentUser.nameUser.substr(
+                                          0,
+                                          currentUser.nameUser.indexOf("@")
+                                        )}`
+                                  }
+                                  alt={currentUser.name + " avatar"}
+                                />
+                              ) : (
+                                <Spin />
+                              )}
                             </Menu.Button>
                           </div>
                           <Transition
@@ -122,6 +153,21 @@ function Header(props) {
                             leaveTo="transform opacity-0 scale-95"
                           >
                             <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                              {userData.userData.role === "ADMIN" ? (
+                                <Menu.Item>
+                                  {({ active }) => (
+                                    <Link
+                                      to="/admin/dashboard"
+                                      className={classNames(
+                                        active ? "bg-gray-100" : "",
+                                        "block px-4 py-2 text-sm text-gray-700"
+                                      )}
+                                    >
+                                      Management
+                                    </Link>
+                                  )}
+                                </Menu.Item>
+                              ) : null}
                               <Menu.Item>
                                 {({ active }) => (
                                   <Link
@@ -200,5 +246,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(memo(Header))
+  connect(mapStateToProps, mapDispatchToProps)(Header)
 );

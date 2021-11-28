@@ -1,17 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Comment, Tooltip, List, Avatar, Form, Button, Input } from "antd";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import moment from "moment";
+import clientApi from "apis/clientApi";
 
 const { TextArea } = Input;
-
-const CommentList = ({ comments }) => (
-  <List
-    dataSource={comments}
-    header={`${comments.length} ${comments.length > 1 ? "replies" : "reply"}`}
-    itemLayout="horizontal"
-    renderItem={(props) => <Comment {...props} />}
-  />
-);
 
 const Editor = ({ onChange, onSubmit, submitting, value }) => (
   <>
@@ -31,52 +25,29 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
   </>
 );
 
-const data = [
-  {
-    actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-    author: "Han Solo",
-    avatar: "https://joeschmoe.io/api/v1/random",
-    content: (
-      <p>
-        We supply a series of design principles, practical patterns and high
-        quality design resources (Sketch and Axure), to help people create their
-        product prototypes beautifully and efficiently.
-      </p>
-    ),
-    datetime: (
-      <Tooltip
-        title={moment().subtract(1, "days").format("YYYY-MM-DD HH:mm:ss")}
-      >
-        <span>{moment().subtract(1, "days").fromNow()}</span>
-      </Tooltip>
-    ),
-  },
-  {
-    actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-    author: "Han Solo",
-    avatar: "https://joeschmoe.io/api/v1/random",
-    content: (
-      <p>
-        We supply a series of design principles, practical patterns and high
-        quality design resources (Sketch and Axure), to help people create their
-        product prototypes beautifully and efficiently.
-      </p>
-    ),
-    datetime: (
-      <Tooltip
-        title={moment().subtract(2, "days").format("YYYY-MM-DD HH:mm:ss")}
-      >
-        <span>{moment().subtract(2, "days").fromNow()}</span>
-      </Tooltip>
-    ),
-  },
-];
-export default function JobDetailComment() {
+export default function JobDetailComment(props) {
+  const { currentUser } = useSelector((state) => state.authReducer);
   let [comment, setComment] = useState({
-    comments: "",
+    comments: [],
     submitting: false,
     value: "",
   });
+  const [dataComment, setDataComment] = useState({
+    dataComment: [],
+  });
+
+  useEffect(() => {
+    clientApi
+      .fetchComment(props.idJob)
+      .then((result) => {
+        setDataComment({
+          dataComment: result.data,
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }, [comment.submitting]);
 
   const handleSubmit = () => {
     if (!comment.value) {
@@ -88,21 +59,31 @@ export default function JobDetailComment() {
       submitting: true,
     });
 
-    setTimeout(() => {
-      setComment({
-        submitting: false,
-        value: "",
-        comments: [
-          ...comment.comments,
-          {
-            author: "Han Solo",
-            avatar: "https://joeschmoe.io/api/v1/random",
-            content: <p>{comment.value}</p>,
-            datetime: moment().fromNow(),
-          },
-        ],
-      });
-    }, 1000);
+    const dataComment = {
+      content: comment.value,
+      job: props.idJob,
+    };
+
+    handleUpdoadComment(dataComment);
+  };
+
+  const handleUpdoadComment = (formData) => {
+    if (currentUser) {
+      const { token } = currentUser;
+      clientApi
+        .fetchAddComment(formData, token)
+        .then((result) => {
+          console.log(result.data);
+          setComment({
+            ...comment,
+            submitting: false,
+            value: "",
+          });
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
   };
 
   const handleChange = (e) => {
@@ -117,37 +98,38 @@ export default function JobDetailComment() {
     <div className="jobdetail__comment text-left">
       <List
         className="comment-list"
-        header={`${data.length} replies`}
+        header={`${dataComment.dataComment.length} replies`}
         itemLayout="horizontal"
-        dataSource={data}
+        dataSource={dataComment.dataComment}
         renderItem={(item) => (
           <li>
             <Comment
-              actions={item.actions}
-              author={item.author}
-              avatar={item.avatar}
+              author={item.user?.name ? item.user.name : "Anonymous"}
+              avatar={item.user?.avatar ? item.user.avatar : null}
               content={item.content}
-              datetime={item.datetime}
             />
           </li>
         )}
       />
-      <>
-        {comments.length > 0 && <CommentList comments={comments} />}
-        <Comment
-          avatar={
-            <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
-          }
-          content={
-            <Editor
-              onChange={handleChange}
-              onSubmit={handleSubmit}
-              submitting={submitting}
-              value={value}
-            />
-          }
-        />
-      </>
+      {currentUser ? (
+        <>
+          <Comment
+            // avatar={<Avatar src={avatar} alt={nameComment} />}
+            content={
+              <Editor
+                onChange={handleChange}
+                onSubmit={handleSubmit}
+                submitting={submitting}
+                value={value}
+              />
+            }
+          />
+        </>
+      ) : (
+        <div className="text-center w-full">
+          <Link to="/login">Login to comment!!</Link>
+        </div>
+      )}
     </div>
   );
 }

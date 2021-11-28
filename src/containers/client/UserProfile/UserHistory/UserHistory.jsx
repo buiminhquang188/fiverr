@@ -110,10 +110,10 @@ export default function UserHistory(props) {
     }
   };
 
-  if (jobData.isLoading <= userData.bookingJob.length || listJob.isLoading)
-    return <Spin />;
+  if (jobData.isLoading && listJob.isLoading)
+    return <Spin className="max-h-screen h-screen flex align-middle my-au" />;
   return (
-    <div className="ml-20 flex flex-col userhistory">
+    <div className="lg:ml-20 md:ml-10 flex flex-col userhistory">
       <div className="userhistory__services mt-11 mb-6">
         <div className="border-black pt-4 pl-8 pr-4 pb-6 border-2 border-opacity-50">
           <div className="flex">
@@ -155,8 +155,8 @@ export default function UserHistory(props) {
               const { name, image, rating, _id, userCreated } = job;
               return (
                 <div className="border-gray-500 pr-4 border-t-2 mt-3 mb-6 border-opacity-50">
-                  <div className="flex justify-start">
-                    <div className="w-28 h-28 px-2 py-2 flex-1">
+                  <div className="flex justify-start mm:flex-col md:flex-row md:items-center lg:flex-row">
+                    <div className="w-28 h-28 mm:w-full px-2 py-2 flex-1">
                       <div
                         className="userhistory__imgwrapper relative cursor-pointer h-full w-full"
                         onClick={() => handleImage(_id)}

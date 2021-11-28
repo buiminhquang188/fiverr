@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import Search from "antd/lib/input/Search";
 import { SearchIcon } from "@heroicons/react/outline";
 import { useHistory } from "react-router";
+import "./HomeBanner.scss";
 
 const settings = {
   arrows: false,
@@ -16,6 +17,7 @@ const settings = {
 };
 
 const prefixIcons = <SearchIcon width="20px" />;
+
 function HomeBanner(props) {
   const history = useHistory();
   const onSearch = (searchValue) => {
@@ -30,8 +32,8 @@ function HomeBanner(props) {
             return (
               <div className="banner__img relative" key={name}>
                 <img src={imgSrc} alt={name} className="w-full object-cover" />
-                <div className="banner__info absolute z-10 bottom-0 right-0 p-5">
-                  <h5 className="text-white">
+                <div className="banner__info absolute z-10 bottom-0 right-0 lg:p-5 mm:mr-2">
+                  <h5 className="text-white mm:text-xs sm:text-sm md:text-xs lg:text-lg">
                     {name}, {job}
                   </h5>
                 </div>
@@ -39,31 +41,38 @@ function HomeBanner(props) {
             );
           })}
         </Slider>
-        <div className="banner__content absolute top-1/4 left-16 h-full max-w-2xl">
+        <div className="banner__content absolute lg:top-1/4 lg:left-16 h-full max-w-2xl mm:top-5 mm:left-0 md:top-20 md:m-5">
           <div>
-            <h1>
+            <h1 className="text-left mm:text-xs sm:text-sm md:text-lg lg:text-5xl text-white">
               Find the perfect <span className="italic">freelance</span>{" "}
               services for your business
             </h1>
-            <Search
-              placeholder="Try search something"
-              allowClear
-              enterButton="Search"
-              size="large"
-              onSearch={onSearch}
-              prefix={prefixIcons}
-            />
-            <div className="banner__icon absolute z-50 top-0 left-0"></div>
+            <div className="mm:w-52 md:w-full lg:w-full lg:h-full">
+              <Search
+                placeholder="Try search something"
+                allowClear
+                enterButton="Search"
+                size="large"
+                onSearch={onSearch}
+                prefix={prefixIcons}
+                className="banner__search"
+              />
+            </div>
           </div>
         </div>
       </div>
       <div className="banner__trust bg-gray-50">
-        <div className="flex max-w-4xl mx-auto justify-center py-8">
-          <p className="my-auto">Trusted by:</p>
+        <div className="flex max-w-4xl mx-auto justify-center py-8 md:px-8">
+          <p className="my-auto text-gray-500 mm:text-xs sm:text-sm md:text-xs lg:text-lg font-bold">
+            Trusted by:
+          </p>
           {fiverrTrusted.map((brand, idx) => {
             const { brandName, imgSrc } = brand;
             return (
-              <div key={brandName} className="mx-auto">
+              <div
+                key={brandName}
+                className="mx-auto lg:w-20 lg:h-16 mm:w-8 mm:h-8"
+              >
                 <img
                   src={imgSrc}
                   alt={brandName}

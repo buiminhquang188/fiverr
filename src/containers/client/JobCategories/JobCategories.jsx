@@ -21,6 +21,7 @@ export default function JobCategories(props) {
       .catch((err) => {
         alert(err);
       });
+    window.scrollTo(0, 0);
   }, [params.id]);
 
   if (loaing) return <Loader />;
@@ -35,12 +36,12 @@ export default function JobCategories(props) {
   return (
     <div className="container jobcategories">
       <h1 className="pt-8">{subJob.listSubJobs.name}</h1>
-      <div className="row pt-8">
-        <div className="col-3 text-left text-base">
+      <div className="grid lg:grid-cols-12 pt-8">
+        <div className="lg:col-span-3 lg:block mm:hidden text-left text-base">
           <Link
             to={{
               pathname: `/job-list/main-job/${subJob.listSubJobs._id}`,
-              state: { typeJobs: true },
+              state: { typeJobs: true, nameJob: subJob.listSubJobs.name },
             }}
             className="text-black hover:text-black text-lg font-bold"
           >
@@ -55,7 +56,10 @@ export default function JobCategories(props) {
                     className="text-gray-500 hover:text-gray-900 hover:underline bg-transparent border-0 block"
                     to={{
                       pathname: `/job-list/sub-job/${_id}`,
-                      state: { typeJobs: false },
+                      state: {
+                        typeJobs: false,
+                        nameJob: name,
+                      },
                     }}
                     state={{
                       from: "hello",
@@ -69,8 +73,8 @@ export default function JobCategories(props) {
             );
           })}
         </div>
-        <div className="col-9">
-          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+        <div className="lg:col-span-9">
+          <div className="grid lg:grid-cols-4 mm:grid-cols-2 md:grid-cols-4">
             {newArrSubJob.map((jobs) => {
               const { name, _id, imgSrc } = jobs;
               return (
@@ -83,7 +87,13 @@ export default function JobCategories(props) {
                   >
                     <div className="card h-100 border-0">
                       <img
-                        src={imgSrc}
+                        src={
+                          imgSrc
+                            ? imgSrc
+                            : `https://picsum.photos/id/${Math.floor(
+                                Math.random(newArrSubJob) * newArrSubJob.length
+                              )}/250/150`
+                        }
                         className="card-img-top rounded-sm"
                         alt={name}
                       />

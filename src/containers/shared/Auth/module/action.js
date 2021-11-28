@@ -7,7 +7,7 @@ const actLoginRequest = () => ({
 
 const actLoginSuccess = (currentUser) => ({
     type: LOGIN_SUCCESS,
-    payload: { idUser: currentUser.user._id, token: currentUser.token, nameUser: currentUser.user.email, role: currentUser.user.role, avatar: currentUser.user.avatar },
+    payload: { idUser: currentUser.user._id, token: currentUser.token, nameUser: currentUser.user.email, role: currentUser.user.role, avatar: currentUser.user.avatar, nameComment: currentUser.user.name },
 });
 
 const actLoginFailure = (error) => ({
@@ -40,7 +40,7 @@ export const actSignUpRequest = () => ({
 
 export const actSignUpSuccess = (currentUser) => ({
     type: SIGNUP_SUCCESS,
-    payload: { idUser: currentUser.user._id, token: currentUser.token, nameUser: currentUser.user.email, role: currentUser.user.role, avatar: currentUser.user.avatar }
+    payload: { idUser: currentUser.user._id, token: currentUser.token, nameUser: currentUser.user.email, role: currentUser.user.role, avatar: currentUser.user.avatar, nameComment: currentUser.user.name }
 })
 
 export const actSignUpFailure = (error) => ({

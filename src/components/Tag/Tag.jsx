@@ -8,9 +8,9 @@ export default function Tag(props) {
   const DELIVERYTIME = "Delivery";
   const PROSERVICES = "Pro";
   return (
-    <ul className="list-none mb-0">
+    <ul className="list-none mb-0 flex flex-wrap flex-auto justify-end gap-1">
       <li
-        className={`inline-block  ${
+        className={`${
           onlineSellers &&
           "text-xs inline-flex ml-1 items-center font-bold leading-sm uppercase px-2 py-1 bg-green-200 text-green-700 rounded-full"
         }`}
@@ -18,7 +18,7 @@ export default function Tag(props) {
         {onlineSellers && ONLINESELLER}
       </li>
       <li
-        className={`inline-block  ${
+        className={`${
           localSellers &&
           "text-xs inline-flex ml-1 items-center font-bold leading-sm uppercase px-2 py-1 bg-green-200 text-green-700 rounded-full"
         }`}
@@ -26,7 +26,7 @@ export default function Tag(props) {
         {localSellers && LOCALSELLER}
       </li>
       <li
-        className={`inline-block  ${
+        className={`${
           deliveryTime &&
           "text-xs inline-flex ml-1 items-center font-bold leading-sm uppercase px-2 py-1 bg-green-200 text-green-700 rounded-full"
         }`}
@@ -34,7 +34,7 @@ export default function Tag(props) {
         {deliveryTime && DELIVERYTIME}
       </li>
       <li
-        className={`inline-block  ${
+        className={`${
           proServices &&
           "text-xs inline-flex ml-1 items-center font-bold leading-sm uppercase px-2 py-1 bg-green-200 text-green-700 rounded-full"
         }`}

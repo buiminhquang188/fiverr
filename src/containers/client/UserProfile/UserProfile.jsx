@@ -30,14 +30,14 @@ export default function UserProfile(props) {
 
   return (
     <div className="container">
-      <div className="flex user">
+      <div className="md:flex md:flex-row user mm:flex-col">
         <div className="user__left">
           <UserInformation
             userData={user.userData}
             userName={props.match.params}
           />
         </div>
-        <div className="user__right flex-1">
+        <div className="user__right md:flex-1 mm:flex-grow-0 mm:flex-shrink-0">
           <UserHistory userData={user.userData} />
         </div>
       </div>
