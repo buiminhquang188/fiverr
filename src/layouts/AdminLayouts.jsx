@@ -17,7 +17,7 @@ function AdminLayouts(props) {
       }}
     >
       <Sider collapsible>
-        <div className="logo w-16 mx-auto mt-3">
+        <div className="logo w-16 mx-auto mt-3 mb-2">
           <Link to="/">
             <img src="/fiverr__icon.png" className="img-fluid" alt="logo" />
           </Link>

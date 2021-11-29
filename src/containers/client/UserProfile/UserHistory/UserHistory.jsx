@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { CameraIcon } from "@heroicons/react/outline";
 import { useSelector } from "react-redux";
 import "./UserHistory.scss";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function UserHistory(props) {
   const { token } = useSelector((state) => state.authReducer.currentUser);
@@ -109,7 +111,11 @@ export default function UserHistory(props) {
   };
 
   if (jobData.isLoading && listJob.isLoading)
-    return <Spin className="max-h-screen h-screen flex align-middle my-au" />;
+    return (
+      <div className="mt-11">
+        <Skeleton count={12} className="max-w-sm mt-11" />
+      </div>
+    );
   return (
     <div className="lg:ml-20 md:ml-10 flex flex-col userhistory">
       <div className="userhistory__services mt-11 mb-6">
@@ -218,7 +224,7 @@ export default function UserHistory(props) {
         ) : (
           <div className="border-gray-500 pt-4 pl-8 pr-4 pb-6 border-2 border-opacity-50">
             <div className="flex justify-between">
-              <div className="my-auto">
+              <div className="my-auto text-left">
                 It seems that you don't have any active Gigs. Get selling!
               </div>
               <Link
@@ -226,7 +232,7 @@ export default function UserHistory(props) {
                   pathname: `/post-a-job/${userData._id}`,
                   state: { typeCreate: true },
                 }}
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold text-base lg:py-2 lg:px-4 md:py-1 md:px-2 md:text-xs mm:py-1 mm:px-3 rounded"
               >
                 Create a New Gig
               </Link>
@@ -292,12 +298,12 @@ export default function UserHistory(props) {
         ) : (
           <div className="border-gray-500 pt-4 pl-8 pr-4 pb-6 border-2 border-opacity-50 mt-6">
             <div className="flex justify-between">
-              <div className="my-auto">
+              <div className="my-auto text-left">
                 It seems that you don't have any booking any job. Get order now!
               </div>
               <Link
                 to="/"
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold text-base lg:py-2 lg:px-4 md:py-1 md:px-2 md:text-xs rounded mm:py-1 mm:px-3"
               >
                 See order
               </Link>

@@ -1,17 +1,19 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import { LockClosedIcon } from "@heroicons/react/outline";
 import { withFormik, Field } from "formik";
 import * as Yup from "yup";
 import { Link, Redirect } from "react-router-dom";
 import { connect, useSelector } from "react-redux";
-import { actLogin } from "../module/action";
+import { actLogin, actLoginFailure } from "../module/action";
 import Loader from "components/Loader/Loader";
 
 function Login(props) {
   const { loading, error, currentUser } = useSelector(
     (state) => state.authReducer
   );
-
+  useEffect(() => {
+    props.dispatch(actLoginFailure(null));
+  }, []);
   const { touched, errors, handleChange, handleBlur, handleSubmit } = props;
   if (loading) return <Loader />;
   return !currentUser ? (
@@ -32,12 +34,7 @@ function Login(props) {
               </Link>
             </p>
           </div>
-          <form
-            className="mt-8 space-y-6"
-            action="#"
-            method="POST"
-            onSubmit={handleSubmit}
-          >
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div className="mb-2">
@@ -79,20 +76,8 @@ function Login(props) {
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 my-auto block text-sm text-gray-900"
-                >
-                  Remember me
-                </label>
+                <div className="ml-2 text-red-500">{error}</div>
               </div>
-
               <div className="text-sm">
                 <Link
                   to="/"
@@ -156,4 +141,4 @@ const mapStateToProps = (state) => ({
   error: state.authReducer.error,
 });
 
-export default connect(mapStateToProps)(memo(LoginFiverrWithFormik));
+export default connect(mapStateToProps)(LoginFiverrWithFormik);

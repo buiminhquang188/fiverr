@@ -56,7 +56,7 @@ export default function UserInformation(props) {
   };
 
   return (
-    <div className="lg:max-w-sm lg:w-full mm:w-52 flex flex-col mb-28">
+    <div className="lg:max-w-sm lg:w-full mm:w-full md:w-60 flex flex-col mb-28">
       <div className="userinfor__top mt-11 mb-8">
         <div className="rounded overflow-hidden shadow-lg border-black">
           <div className="avatar-wrapper">

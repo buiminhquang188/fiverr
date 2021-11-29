@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { LockClosedIcon } from "@heroicons/react/outline";
 import { withFormik, Field } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { DatePicker, Input, Select, Form, Tag } from "antd";
 import moment from "moment";
@@ -10,6 +10,7 @@ import { actSignUp } from "../module/action";
 const { Option } = Select;
 
 function SignUp(props) {
+  const { currentUser } = props;
   const {
     values,
     touched,
@@ -20,7 +21,7 @@ function SignUp(props) {
     setFieldValue,
   } = props;
   const newRegexSpace = new RegExp("^\\s+$");
-  return (
+  return !currentUser ? (
     <div className="max-h-screen w-full max-w-full h-full mb-32 mt-10">
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
@@ -38,10 +39,7 @@ function SignUp(props) {
               </Link>
             </p>
           </div>
-          <form
-            className="mt-8 space-y-6"
-            onSubmit={handleSubmit}
-          >
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div className="flex justify-start">
@@ -273,6 +271,8 @@ function SignUp(props) {
         </div>
       </div>
     </div>
+  ) : (
+    <Redirect to="/" />
   );
 }
 
@@ -322,7 +322,7 @@ const SignUpFiverrWithFormik = withFormik({
 
   handleSubmit: (values, { props, setSubmitting }) => {
     props.dispatch(actSignUp(values, props.history));
-    if(props.errorSignUp) return alert(props.errorSignUp)
+    if (props.errorSignUp) return alert(props.errorSignUp);
   },
 
   displayName: "SignUp Fiverr",
@@ -330,6 +330,7 @@ const SignUpFiverrWithFormik = withFormik({
 
 const mapStateToProps = (state) => ({
   errorSignUp: state.authReducer.errorSignUp,
+  currentUser: state.authReducer.currentUser,
 });
 
 export default connect(mapStateToProps)(memo(SignUpFiverrWithFormik));

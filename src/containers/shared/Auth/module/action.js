@@ -10,7 +10,7 @@ const actLoginSuccess = (currentUser) => ({
     payload: { idUser: currentUser.user._id, token: currentUser.token, nameUser: currentUser.user.email, role: currentUser.user.role, avatar: currentUser.user.avatar, nameComment: currentUser.user.name },
 });
 
-const actLoginFailure = (error) => ({
+export const actLoginFailure = (error) => ({
     type: LOGIN_FAILURE,
     payload: error,
 });
@@ -28,8 +28,9 @@ export const actLogin = (user, history) => {
                 else {
                     history.push("/");
                 }
-            }).catch((err) => {
-                dispatch(actLoginFailure(err));
+            })
+            .catch((err) => {
+                dispatch(actLoginFailure("Email or password is incorrect"));
             });
     }
 }
@@ -43,7 +44,7 @@ export const actSignUpRequest = () => ({
     type: SIGNUP_REQUEST
 })
 
-export const actSignUpSuccess = () => ({
+export const actSignUpSuccess = (user) => ({
     type: SIGNUP_SUCCESS,
     payload: null,
 })
@@ -60,8 +61,18 @@ export const actSignUp = (user, history) => {
             .signUpApi(user)
             .then((result) => {
                 dispatch(actSignUpSuccess(result.data));
-                alert("Sign Up Success, please login to continue")
-                history.push("/login");
+                const uservalue = {
+                    email: user.email,
+                    password: user.password,
+                }
+                clientApi
+                    .loginApi(uservalue)
+                    .then((result) => {
+                        dispatch(actLoginSuccess(result.data));
+                        history.push("/");
+                    }).catch((err) => {
+                        dispatch(actLoginFailure(err));
+                    });
             }).catch((err) => {
                 dispatch(actSignUpFailure("User or email already have!!"))
             });
