@@ -126,8 +126,14 @@ export default function JobDetail(props) {
   };
   if (detail.isLoading || userCreated.isLoading || userBrowsing.isLoading)
     return <Loader />;
-  const { onlineSellers, localSellers, deliveryTime, proServices, price } =
-    detail.detailJob;
+  const {
+    onlineSellers,
+    localSellers,
+    deliveryTime,
+    proServices,
+    price,
+    rating,
+  } = detail.detailJob;
   return (
     <div className="lg:max-w-screen-2xl mm:max-w-screen-mm md:max-w-screen-md mx-auto md:px-6 lg:px-0">
       <div className="jobdetail__contain mx-auto py-4">
@@ -180,7 +186,7 @@ export default function JobDetail(props) {
                 <div className="ml-2 my-auto">
                   <Rate
                     disabled
-                    defaultValue={4}
+                    defaultValue={rating}
                     style={{ fontSize: 14 }}
                     className="py-auto"
                   />

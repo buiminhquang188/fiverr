@@ -10,7 +10,7 @@ import PageNotFound from "containers/shared/Auth/PageNotFound/PageNotFound";
 import { Link } from "react-router-dom";
 import Tag from "components/Tag/Tag";
 import { Pagination } from "antd";
-const numEachPage = 20;
+const numEachPage = 10;
 function JobList(props) {
   let [jobList, setJobList] = useState({
     arrJobList: null,
@@ -18,7 +18,7 @@ function JobList(props) {
   });
   const [currentPage, setCurrentPage] = useState({
     minValue: 0,
-    maxValue: 20,
+    maxValue: 10,
     isChange: false,
   });
   useEffect(() => {

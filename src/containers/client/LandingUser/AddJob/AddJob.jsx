@@ -128,10 +128,10 @@ function AddJob(props) {
         <div className="grid lg:grid-cols-2 mm:grid-cols-1 gap-3">
           <div>
             <div className="addjob__wrapper rounded-lg">
-              <div className="addjob__form text-left py-8 px-12">
+              <div className="addjob__form text-left mm:py-8 mm:px-12">
                 <Form
                   labelCol={{
-                    span: 4,
+                    span: 5,
                   }}
                   wrapperCol={{
                     span: 14,
@@ -225,7 +225,7 @@ function AddJob(props) {
                       </small>
                     )}
                   </Form.Item>
-                  <Form.Item name="checkbox-group" label="Choose Services">
+                  <Form.Item name="checkbox-group" label="Choose Services: ">
                     <Row>
                       <Col span={12}>
                         <Checkbox
@@ -363,7 +363,7 @@ const PostAJobWithFormik = withFormik({
     price: Yup.number()
       .required("Price is required")
       .min(1, "Price must be greater than 0")
-      .max(2000, "Price must be less than 2000"),
+      .max(5000, "Price must be less than 5000"),
     type: Yup.string().required("Type is required"),
     subType: Yup.string().required("Sub Type is required"),
   }),

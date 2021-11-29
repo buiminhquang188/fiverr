@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Spin, Rate } from "antd";
+import { Rate } from "antd";
 import clientApi from "apis/clientApi";
 import { Link } from "react-router-dom";
 import { CameraIcon } from "@heroicons/react/outline";
@@ -23,6 +23,9 @@ export default function UserHistory(props) {
     id: null,
     imgSrc: null,
     isDone: false,
+  });
+  const [deleteJob, setDeleteJob] = useState({
+    isDelete: false,
   });
   const inputImage = useRef(null);
   let arrJob = [];
@@ -58,13 +61,16 @@ export default function UserHistory(props) {
       .catch((err) => {
         alert(err);
       });
-  }, [imgId.isDone]);
+  }, [imgId.isDone, deleteJob.isDelete]);
 
   const handleRemoveJob = (id) => {
     clientApi
       .fetchDeleteJob(id)
       .then((result) => {
         alert("Delete Job Success");
+        setDeleteJob({
+          isDelete: true,
+        });
       })
       .catch((err) => {
         alert(err);
@@ -232,7 +238,7 @@ export default function UserHistory(props) {
                   pathname: `/post-a-job/${userData._id}`,
                   state: { typeCreate: true },
                 }}
-                className="bg-green-500 hover:bg-green-700 text-white font-bold text-base lg:py-2 lg:px-4 md:py-1 md:px-2 md:text-xs mm:py-1 mm:px-3 rounded"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold lg:text-base lg:py-2 lg:px-4 md:py-1 md:px-2 md:text-xs mm:py-1 mm:px-3 rounded"
               >
                 Create a New Gig
               </Link>
@@ -303,7 +309,7 @@ export default function UserHistory(props) {
               </div>
               <Link
                 to="/"
-                className="bg-green-500 hover:bg-green-700 text-white font-bold text-base lg:py-2 lg:px-4 md:py-1 md:px-2 md:text-xs rounded mm:py-1 mm:px-3"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold lg:text-base lg:py-2 lg:px-4 md:py-1 md:px-2 md:text-xs rounded mm:py-1 mm:px-3"
               >
                 See order
               </Link>
