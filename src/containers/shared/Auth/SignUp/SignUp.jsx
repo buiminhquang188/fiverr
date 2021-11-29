@@ -20,7 +20,6 @@ function SignUp(props) {
     setFieldValue,
   } = props;
   const newRegexSpace = new RegExp("^\\s+$");
-
   return (
     <div className="max-h-screen w-full max-w-full h-full mb-32 mt-10">
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -41,8 +40,6 @@ function SignUp(props) {
           </div>
           <form
             className="mt-8 space-y-6"
-            action="#"
-            method="POST"
             onSubmit={handleSubmit}
           >
             <input type="hidden" name="remember" defaultValue="true" />
@@ -325,6 +322,7 @@ const SignUpFiverrWithFormik = withFormik({
 
   handleSubmit: (values, { props, setSubmitting }) => {
     props.dispatch(actSignUp(values, props.history));
+    if(props.errorSignUp) return alert(props.errorSignUp)
   },
 
   displayName: "SignUp Fiverr",

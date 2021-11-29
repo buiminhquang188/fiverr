@@ -43,9 +43,9 @@ export const actSignUpRequest = () => ({
     type: SIGNUP_REQUEST
 })
 
-export const actSignUpSuccess = (currentUser) => ({
+export const actSignUpSuccess = () => ({
     type: SIGNUP_SUCCESS,
-    payload: { idUser: currentUser.user._id, token: currentUser.token, nameUser: currentUser.user.email, role: currentUser.user.role, avatar: currentUser.user.avatar, nameComment: currentUser.user.name }
+    payload: null,
 })
 
 export const actSignUpFailure = (error) => ({
@@ -60,9 +60,10 @@ export const actSignUp = (user, history) => {
             .signUpApi(user)
             .then((result) => {
                 dispatch(actSignUpSuccess(result.data));
+                alert("Sign Up Success, please login to continue")
+                history.push("/login");
             }).catch((err) => {
                 dispatch(actSignUpFailure("User or email already have!!"))
             });
-        history.push('/')
     }
 }
