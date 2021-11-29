@@ -95,7 +95,11 @@ function UpdateUserManagement(props) {
             setFieldValue("birthday", moment(e).format("YYYY-MM-DD"))
           }
           onBlur={handleBlur}
-          defaultValue={moment(userUpdate.arrUser.birthday.substring(0, 10))}
+          defaultValue={
+            userUpdate.arrUser.birthday
+              ? moment(userUpdate.arrUser?.birthday.substring(0, 10))
+              : null
+          }
         />
         {errors.birthday && touched.birthday && (
           <small className="text-red-500 block">{errors.birthday}</small>

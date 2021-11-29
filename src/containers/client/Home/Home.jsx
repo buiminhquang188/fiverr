@@ -5,12 +5,11 @@ import { useSelector } from "react-redux";
 import LandingUser from "../LandingUser/LandingUser";
 export default function Home() {
   const { currentUser } = useSelector((state) => state.authReducer);
-
   if (currentUser) return <LandingUser />;
-  return (
-    <div>
-      <HomeBanner />
-      <HomeContent />
-    </div>
-  );
+    return (
+      <div>
+        <HomeBanner />
+        <HomeContent />
+      </div>
+    );
 }

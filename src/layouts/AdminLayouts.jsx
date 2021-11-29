@@ -17,8 +17,10 @@ function AdminLayouts(props) {
       }}
     >
       <Sider collapsible>
-        <div className="logo w-16 mx-auto">
-          <img src="/logo512.png" className="img-fluid" alt="logo" />
+        <div className="logo w-16 mx-auto mt-3">
+          <Link to="/">
+            <img src="/fiverr__icon.png" className="img-fluid" alt="logo" />
+          </Link>
         </div>
         <Menu theme="dark" mode="inline">
           <Menu.Item key="0" icon={<UserOutlined />}>

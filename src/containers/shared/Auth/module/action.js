@@ -22,7 +22,12 @@ export const actLogin = (user, history) => {
             .loginApi(user)
             .then((res) => {
                 dispatch(actLoginSuccess(res.data));
-                history.push("/");
+                if (res.data.user.role === "ADMIN") {
+                    history.push("/admin/dashboard")
+                }
+                else {
+                    history.push("/");
+                }
             }).catch((err) => {
                 dispatch(actLoginFailure(err));
             });

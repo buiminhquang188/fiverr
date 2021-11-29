@@ -11,10 +11,9 @@ function Login(props) {
   const { loading, error, currentUser } = useSelector(
     (state) => state.authReducer
   );
-  
+
   const { touched, errors, handleChange, handleBlur, handleSubmit } = props;
   if (loading) return <Loader />;
-  // if (error) return alert(error);
   return !currentUser ? (
     <div className="max-h-screen w-full max-w-full h-screen">
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
