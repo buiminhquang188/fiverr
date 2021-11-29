@@ -85,7 +85,7 @@ export default function JobCategories(props) {
                       state: { typeJobs: false },
                     }}
                   >
-                    <div className="card h-100 border-0">
+                    <div className="card border-0">
                       <img
                         src={
                           imgSrc
@@ -97,7 +97,7 @@ export default function JobCategories(props) {
                         className="card-img-top rounded-sm"
                         alt={name}
                       />
-                      <div className="card-body">
+                      <div className="card-body h-full">
                         <h5 className="card-title text-left">{name}</h5>
                       </div>
                     </div>

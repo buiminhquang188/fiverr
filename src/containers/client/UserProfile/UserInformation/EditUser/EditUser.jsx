@@ -294,12 +294,10 @@ const EditUserWithFormik = withFormik({
   }),
 
   handleSubmit: (values, { props, setSubmitting }) => {
-    console.log(values);
     adminApi
       .fetchUpdateUser(props.match.params.id, values, props.token)
       .then((result) => {
         alert("Update Success");
-        console.log(result);
         props.history.goBack();
       })
       .catch((err) => {

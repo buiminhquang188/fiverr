@@ -1,4 +1,5 @@
 import React from "react";
+import "./Tag.scss";
 
 export default function Tag(props) {
   const { onlineSellers, localSellers, deliveryTime, proServices } =
@@ -8,11 +9,11 @@ export default function Tag(props) {
   const DELIVERYTIME = "Delivery";
   const PROSERVICES = "Pro";
   return (
-    <ul className="list-none mb-0 flex flex-wrap flex-auto justify-end gap-1">
+    <ul className="list-none mb-0 flex flex-wrap flex-auto justify-end gap-1 tag">
       <li
         className={`${
           onlineSellers &&
-          "text-xs inline-flex ml-1 items-center font-bold leading-sm uppercase px-2 py-1 bg-green-200 text-green-700 rounded-full"
+          "inline-flex items-center font-bold leading-sm uppercase px-2 py-1 bg-green-200 text-green-700 rounded-full"
         }`}
       >
         {onlineSellers && ONLINESELLER}
@@ -20,7 +21,7 @@ export default function Tag(props) {
       <li
         className={`${
           localSellers &&
-          "text-xs inline-flex ml-1 items-center font-bold leading-sm uppercase px-2 py-1 bg-green-200 text-green-700 rounded-full"
+          "inline-flex items-center font-bold leading-sm uppercase px-2 py-1 bg-green-200 text-green-700 rounded-full"
         }`}
       >
         {localSellers && LOCALSELLER}
@@ -28,7 +29,7 @@ export default function Tag(props) {
       <li
         className={`${
           deliveryTime &&
-          "text-xs inline-flex ml-1 items-center font-bold leading-sm uppercase px-2 py-1 bg-green-200 text-green-700 rounded-full"
+          "inline-flex items-center font-bold leading-sm uppercase px-2 py-1 bg-green-200 text-green-700 rounded-full"
         }`}
       >
         {deliveryTime && DELIVERYTIME}
@@ -36,7 +37,7 @@ export default function Tag(props) {
       <li
         className={`${
           proServices &&
-          "text-xs inline-flex ml-1 items-center font-bold leading-sm uppercase px-2 py-1 bg-green-200 text-green-700 rounded-full"
+          "inline-flex items-center font-bold leading-sm uppercase px-2 py-1 bg-green-200 text-green-700 rounded-full"
         }`}
       >
         {proServices && PROSERVICES}

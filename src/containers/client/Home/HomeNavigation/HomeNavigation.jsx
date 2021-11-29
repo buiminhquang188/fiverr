@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Menu, Dropdown, Spin } from "antd";
+import { Menu, Dropdown } from "antd";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import clientApi from "apis/clientApi";
-
+import "./HomeNavigation.scss";
 function HomeNavigation() {
   const [typeJobs, setTypeJobs] = useState({
     listTypeJobs: null,
@@ -44,22 +46,24 @@ function HomeNavigation() {
     }
     return (
       <Menu>
-        <div className="grid lg:grid-cols-4 mm:grid-cols-2 md:grid-cols-3">{listJobs}</div>
+        <div className="grid lg:grid-cols-4 mm:grid-cols-2 md:grid-cols-3">
+          {listJobs}
+        </div>
       </Menu>
     );
   };
 
-  if (typeJobs.isLoading) return <Spin />;
+  if (typeJobs.isLoading) return <Skeleton />;
   return (
     <div className="border-b-2 border-gray-200 text-base">
       <ul className="list-none my-auto mx-auto text-center">
         {typeJobs.listTypeJobs.map((typeJob) => {
           const { name, _id, subTypeJobs } = typeJob;
           return (
-            <li className="inline-block hover:border-green-500" key={_id}>
-              <Dropdown overlay={menu(subTypeJobs)} className="lg:mr-3 mm:mr-1">
+            <li className="inline-block" key={_id}>
+              <Dropdown overlay={menu(subTypeJobs)} className="lg:mx-4 mm:mr-1">
                 <Link
-                  className="ant-dropdown-link text-gray-700 hover:text-green-600 mm:text-xs md:text-base lg:text-lg"
+                  className="ant-dropdown-link text-gray-700 hover:text-gray-700 mm:text-xs md:text-base lg:text-lg homenavigation"
                   to={`/job-categories/${_id}`}
                 >
                   {name}

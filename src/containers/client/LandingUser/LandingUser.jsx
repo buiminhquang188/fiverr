@@ -148,10 +148,10 @@ export default function LandingUser(props) {
           <div className="landing_create mr-8 h-full">
             <div className="card h-full ml-2">
               <div className="card-body px-auto lg:px-5">
-                <h4 className="card-title text-left mm:text-base">
+                <h4 className="card-title text-center mm:text-base mb-0">
                   Hi {user.userDetail.name},
                 </h4>
-                <p className="card-text lg:px-3 md:py-2 text-left">
+                <p className="card-text lg:px-3 md:py-2 text-center mb-4">
                   Get offers from sellers for your project
                 </p>
                 <Link
@@ -159,7 +159,7 @@ export default function LandingUser(props) {
                     pathname: `/post-a-job/${idUser}`,
                     state: { typeCreate: true },
                   }}
-                  className="lg:py-2 lg:px-3 mm:py-1 mm:px-2 border-2 text-white border-green-500 bg-green-500 rounded-lg font-bold hover:bg-green-700 hover:border-green-700"
+                  className="lg:py-2 lg:px-7 mm:py-1 mm:px-2 border-2 text-white border-green-500 bg-green-500 rounded-lg font-bold hover:bg-green-700 hover:border-green-700"
                 >
                   Post a request
                 </Link>
@@ -179,7 +179,7 @@ export default function LandingUser(props) {
             <div className="flex justify-between">
               <h2 className="text-left ml-2">Browsing</h2>
               <Link
-                to="/job-search/search=design"
+                to="/job-search/search= "
                 className="my-auto text-green-500 hover:text-green-700"
               >
                 See All
@@ -204,7 +204,7 @@ export default function LandingUser(props) {
                       } = job;
                       return (
                         <div className="px-1 h-80 md:mb-0 mm:mb-10" key={_id}>
-                          <div className="card text-left h-full border-gray-900">
+                          <div className="card text-left h-100 border-gray-900">
                             <Link
                               to={{
                                 pathname: `/job-detail/${_id}`,
@@ -245,7 +245,7 @@ export default function LandingUser(props) {
                                 </div>
                               </div>
                               <div className="card-footer bg-transparent">
-                                <small className="flex justify-between">
+                                <small className="flex justify-between mt-auto">
                                   <span>
                                     <HeartIcon className="w-4 h-4 hover:text-red-600" />
                                   </span>

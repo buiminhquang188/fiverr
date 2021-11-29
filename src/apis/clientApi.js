@@ -75,7 +75,6 @@ const clientApi = {
 
     // api number 33
     fetchAddComment(commentData, token) {
-        console.log(commentData)
         return callApi(`api/comments`, 'POST', commentData, token)
     },
 

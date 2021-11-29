@@ -129,8 +129,8 @@ export default function JobDetail(props) {
   const { onlineSellers, localSellers, deliveryTime, proServices, price } =
     detail.detailJob;
   return (
-    <div className="w-full max-w-full">
-      <div className="jobdetail__contain mx-auto py-4 container">
+    <div className="lg:max-w-screen-2xl mm:max-w-screen-mm md:max-w-screen-md mx-auto md:px-6 lg:px-0">
+      <div className="jobdetail__contain mx-auto py-4">
         <div className="grid md:grid-cols-12 mm:grid-cols-1 gap-16">
           <div className="jobdetail__left md:col-span-8">
             <div className="text-left">
@@ -259,8 +259,8 @@ export default function JobDetail(props) {
                   proServices,
                 } = browsing;
                 return (
-                  <div className="px-1 md:mb-0 mm:mb-9 h-80" key={_id}>
-                    <div className="card text-left h-full border-gray-900">
+                  <div className="px-1 md:mb-0 mm:mb-10" key={_id}>
+                    <div className="card text-left h-100 border-gray-900">
                       <Link
                         to={{
                           pathname: `/job-detail/${_id}`,
@@ -297,11 +297,13 @@ export default function JobDetail(props) {
                               </div>
                             </div>
                           </div>
-                          <small className="flex justify-between mt-3">
+                        </div>
+                        <div className="card-footer bg-transparent">
+                          <small className="flex justify-between mt-auto">
                             <span>
                               <HeartIcon className="w-4 h-4 hover:text-red-600" />
                             </span>
-                            <span>
+                            <span className="font-bold">
                               STARTING AT <span>US${price}</span>
                             </span>
                           </small>

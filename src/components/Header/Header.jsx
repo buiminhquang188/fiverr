@@ -30,7 +30,6 @@ function Header(props) {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const { currentUser } = props;
-    console.log("currentUser", currentUser);
     window.scrollTo(0, 0);
     if (currentUser) {
       adminApi
@@ -153,7 +152,7 @@ function Header(props) {
                             leaveTo="transform opacity-0 scale-95"
                           >
                             <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                              {userData.userData.role === "ADMIN" ? (
+                              {currentUser && userData.userData?.role === "ADMIN" ? (
                                 <Menu.Item>
                                   {({ active }) => (
                                     <Link

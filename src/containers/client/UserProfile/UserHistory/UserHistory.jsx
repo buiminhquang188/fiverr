@@ -8,7 +8,6 @@ import "./UserHistory.scss";
 
 export default function UserHistory(props) {
   const { token } = useSelector((state) => state.authReducer.currentUser);
-  console.log("Render");
   const { userData } = props;
   const [jobData, setJobData] = useState({
     jobData: [],
@@ -43,7 +42,6 @@ export default function UserHistory(props) {
   }, []);
 
   useEffect(() => {
-    console.log("Render again");
     clientApi
       .fetchItem()
       .then((result) => {

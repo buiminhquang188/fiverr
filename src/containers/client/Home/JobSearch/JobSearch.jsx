@@ -8,9 +8,6 @@ import Tag from "components/Tag/Tag";
 import PageNotFound from "containers/shared/Auth/PageNotFound/PageNotFound";
 
 const numEachPage = 15;
-function onChange(checked) {
-  console.log(checked);
-}
 
 export default function JobSearch(props) {
   let [services, setServices] = useState({
@@ -51,26 +48,6 @@ export default function JobSearch(props) {
     <div className="mm:max-w-screen-mm md:max-w-screen-md lg:max-w-screen-2xl mx-auto">
       <div className="jobsearch__top text-left pt-20">
         <h3>Result for "{props.match.params.searchId}"</h3>
-        <div className="flex justify-between jobsearch__filter">
-          <div className="grid grid-cols-4 jobsearch__services gap-3">
-            <div>
-              <Switch onChange={onChange} />
-              <span className="pl-2">Pro services</span>
-            </div>
-            <div>
-              <Switch onChange={onChange} />
-              <span className="pl-2">Online sellers</span>
-            </div>
-            <div>
-              <Switch onChange={onChange} />
-              <span className="pl-2">Local sellers</span>
-            </div>
-            <div>
-              <Switch onChange={onChange} />
-              <span className="pl-2">Delivery Time</span>
-            </div>
-          </div>
-        </div>
       </div>
       <div className="jobsearch__result text-left pt-4 pb-20">
         <div className="flex justify-between">

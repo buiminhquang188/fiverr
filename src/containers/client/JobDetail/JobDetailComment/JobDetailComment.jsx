@@ -73,7 +73,6 @@ export default function JobDetailComment(props) {
       clientApi
         .fetchAddComment(formData, token)
         .then((result) => {
-          console.log(result.data);
           setComment({
             ...comment,
             submitting: false,
