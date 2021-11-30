@@ -1,37 +1,46 @@
 export const HomeContentConfig = [
     {
+        id: "61977cebaef344001cecee6c",
         imgSrc: 'https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/graphics-design.d32a2f8.svg',
         marketname: 'Graphics & Design',
     },
     {
+        id: "61987421aef344001cecfb35",
         imgSrc: 'https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/online-marketing.74e221b.svg',
         marketname: 'Digital Marketing',
     },
     {
+        id: "61987497aef344001cecfb93",
         imgSrc: 'https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/writing-translation.32ebe2e.svg',
         marketname: 'Writing & Translation',
     },
     {
+        id: "6198753aaef344001cecfc19",
         imgSrc: 'https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/video-animation.f0d9d71.svg',
         marketname: 'Video & Animation',
     },
     {
+        id: "619875deaef344001cecfc9f",
         imgSrc: 'https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/music-audio.320af20.svg',
         marketname: 'Music & Audio',
     },
     {
+        id: "61987645aef344001cecfcf9",
         imgSrc: 'https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/programming.9362366.svg',
         marketname: 'Programing & Tech',
     },
     {
+        id: "619876b0aef344001cecfd65",
         imgSrc: 'https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/business.bbdf319.svg',
         marketname: 'Business',
     },
     {
+        id: "619876f8aef344001cecfdab",
         imgSrc: 'https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/lifestyle.745b575.svg',
         marketname: 'Lifestyle',
     },
     {
+        id: "6198768aaef344001cecfd43",
         imgSrc: 'https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/data.718910f.svg',
         marketname: 'Data',
     },

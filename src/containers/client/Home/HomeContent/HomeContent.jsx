@@ -228,10 +228,10 @@ function HomeContent() {
           </h2>
           <div className="grid lg:grid-cols-5 gap-10 mm:gap-3 mm:grid-cols-3">
             {HomeContentConfig.map((marketplace) => {
-              const { imgSrc, marketname } = marketplace;
+              const { imgSrc, marketname, id } = marketplace;
               return (
                 <div key={marketname}>
-                  <Link to="/">
+                  <Link to={`/job-categories/${id}`}>
                     <img
                       src={imgSrc}
                       alt={marketname}
@@ -367,7 +367,7 @@ function HomeContent() {
               </div>
               <div className="maker__img col-span-8 mm:grid-cols-12">
                 <img
-                  className='lg:w-full lg:h-full object-cover'
+                  className="lg:w-full lg:h-full object-cover"
                   srcSet="https://fiverr-res.cloudinary.com/q_auto,f_auto,w_1160,dpr_1.0/v1/attachments/generic_asset/asset/b49b1963f5f9008f5ff88bd449ec18f7-1608035772453/logo-maker-banner-wide-desktop-1352-2x.png"
                   alt="Fiver logo maker background"
                 />
